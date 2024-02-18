@@ -1,0 +1,12 @@
+hal_template\port.o: FreeRTOS\port.c
+hal_template\port.o: .\FreeRTOS\include\FreeRTOS.h
+hal_template\port.o: E:\keil5\ARM\ARMCC\Bin\..\include\stddef.h
+hal_template\port.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+hal_template\port.o: .\FreeRTOS\include\FreeRTOSConfig.h
+hal_template\port.o: .\FreeRTOS\include\projdefs.h
+hal_template\port.o: .\FreeRTOS\include\portable.h
+hal_template\port.o: .\FreeRTOS\include\deprecated_definitions.h
+hal_template\port.o: .\FreeRTOS\include\portmacro.h
+hal_template\port.o: .\FreeRTOS\include\mpu_wrappers.h
+hal_template\port.o: .\FreeRTOS\include\task.h
+hal_template\port.o: .\FreeRTOS\include\list.h
