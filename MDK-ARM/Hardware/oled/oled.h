@@ -23,6 +23,7 @@ void OLED_WR_DATA(uint8_t data);
 void OLED_Init(void);
 	//清屏
 void OLED_Clear(void);
+void OLED_ClearSet(void);
 //清行
 void OLED_Clearrow(uint8_t i);
 //开启OLED显示    

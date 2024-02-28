@@ -204,6 +204,18 @@ void OLED_Clear()
 			OLED_WR_DATA(0x00);
 	} 
 }
+void OLED_ClearSet()
+{
+	uint8_t i,n;		    
+	for(i=0;i<8;i++)  
+	{  
+		OLED_WR_CMD(0xb0+i);
+		OLED_WR_CMD (0x00); 
+		OLED_WR_CMD (0x10); 
+		for(n=0;n<32;n++)
+			OLED_WR_DATA(0x00);
+	} 
+}
 void OLED_Clear_H(unsigned char H)
 {
 	uint8_t i,n;		    

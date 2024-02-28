@@ -54,26 +54,23 @@ key_table table[30]=
 
 
 
-    {0,2,1,3,fun1},
+    {0,0,0,1,fun1},
 
-    {1,0,2,6,fun2},	
+    {1,4,2,5,fun2_1},	
 
-    {2,1,0,7,fun3},                
+    {2,1,3,5,fun2_2},                
 
-    {3,5,4,8,fun1_1},
-
-		{4,3,5,9,fun1_2},
+    {3,2,4,6,fun2_3},
 		
-		{5,4,3,0,fun1_3}, 
+		{4,3,1,0,fun2_4},
+		
+		{5,5,5,1,fun3_1},
+		
+		{6,6,6,2,fun3_2}, 
 		     	
-		{6,10,10,1,fun2_1},
+		{7,7,7,3,fun3_3},
 
-		{7,10,10,2,fun3_1},	
 
-		{8,10,10,3,fun1_1_0}, 
-
-		{9,10,10,4,fun1_2_0},
-		
 	
                                                                                  
 
@@ -104,13 +101,10 @@ int main(void)
 	OLED_Init();
 	
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-	OLED_ShowString(8,0,"show receive:",16);
-	OLED_ShowString(8,4,"show Temp:",16);
-	OLED_ShowString(64,6,"C",16);
-	OLED_ShowString(48,6,".",16);
+
 	TSW_Init();
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&rcData , 1);   //再开启接收中断
-	
+	OLED_Clear();
 	
 	
   while (1)
