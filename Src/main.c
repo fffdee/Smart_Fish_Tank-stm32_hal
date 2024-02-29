@@ -140,9 +140,9 @@ int main(void)
 
                                      {
 
-                                     func_index=table[func_index].enter; 
+																				 func_index=table[func_index].enter; 
 
-                                     while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_5));
+																				 while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_5));
 
                                      }
 

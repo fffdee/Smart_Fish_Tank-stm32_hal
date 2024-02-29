@@ -8,13 +8,13 @@ hal_template\function.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h
 hal_template\function.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h
 hal_template\function.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f031x6.h
 hal_template\function.o: ../Drivers/CMSIS/Include/core_cm0.h
-hal_template\function.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+hal_template\function.o: D:\app\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 hal_template\function.o: ../Drivers/CMSIS/Include/core_cmInstr.h
 hal_template\function.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 hal_template\function.o: ../Drivers/CMSIS/Include/core_cmFunc.h
 hal_template\function.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/system_stm32f0xx.h
 hal_template\function.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h
-hal_template\function.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
+hal_template\function.o: D:\app\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 hal_template\function.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc_ex.h
 hal_template\function.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio.h
 hal_template\function.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio_ex.h
@@ -39,6 +39,6 @@ hal_template\function.o: .\Hardware\BEEP\beep.h
 hal_template\function.o: .\Hardware\KEY\key.h
 hal_template\function.o: .\Hardware\DS18B20\ds18b20.h
 hal_template\function.o: .\Hardware\UARST\uarst1.h
-hal_template\function.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+hal_template\function.o: D:\app\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 hal_template\function.o: .\Hardware\oled\oled.h
 hal_template\function.o: .\Hardware\TSW-30\tsw_30.h

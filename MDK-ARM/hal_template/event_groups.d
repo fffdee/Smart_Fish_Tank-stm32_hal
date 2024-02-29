@@ -1,8 +1,8 @@
 hal_template\event_groups.o: FreeRTOS\event_groups.c
-hal_template\event_groups.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+hal_template\event_groups.o: D:\app\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 hal_template\event_groups.o: .\FreeRTOS\include\FreeRTOS.h
-hal_template\event_groups.o: E:\keil5\ARM\ARMCC\Bin\..\include\stddef.h
-hal_template\event_groups.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+hal_template\event_groups.o: D:\app\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+hal_template\event_groups.o: D:\app\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 hal_template\event_groups.o: .\FreeRTOS\include\FreeRTOSConfig.h
 hal_template\event_groups.o: .\FreeRTOS\include\projdefs.h
 hal_template\event_groups.o: .\FreeRTOS\include\portable.h

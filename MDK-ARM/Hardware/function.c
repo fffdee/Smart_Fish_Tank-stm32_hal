@@ -53,7 +53,9 @@ void fun1(void)
 		OLED_ShowNum(24,6,temp_T/10,2,16);
 		OLED_ShowNum(46,6,T,1,16);
 	//	OLED_ShowString(8,2,Uart1_RxBuff,16);
-		SettingFlag =1;
+		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
+				SettingFlag =1;
+		}
 }
 
 void fun2_1(void)
@@ -68,7 +70,9 @@ void fun2_1(void)
 			OLED_ShowString(0,2,"->",16);
 			OLED_ShowString(32,4,"ZD Set",16);
 			OLED_ShowString(32,6,"Motor Test",16);
-	
+			if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
+				SettingFlag =1;
+			}
 
 		
 }
@@ -76,13 +80,16 @@ void fun2_1(void)
 
 void fun2_2(void)
 {
-			SettingFlag =1;
+			
 			OLED_ClearSet();
 			OLED_ShowString(40,0,"Setting",16);
 			OLED_ShowString(32,2,"Temp Set",16);
 			OLED_ShowString(0,4,"->",16);
 			OLED_ShowString(32,4,"ZD Set",16);
 			OLED_ShowString(32,6,"Motor Test",16);
+			if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
+				SettingFlag =1;
+			}
 }
 
 
@@ -95,6 +102,7 @@ void fun2_3(void)
 			OLED_ShowString(0,6,"->",16);
 			OLED_ShowString(32,4,"ZD Set",16);
 			OLED_ShowString(32,6,"Motor Test",16);
+			
 }
 void fun2_4(void)
 {
@@ -104,22 +112,39 @@ void fun2_4(void)
 			SettingFlag =0;
 			}
 			OLED_ShowString(40,0,"Setting",16);
-			OLED_ShowString(32,2,"Temp Set",16);
+			OLED_ShowString(32,2,"ZD Set",16);
 			OLED_ShowString(0,6,"->",16);
-			OLED_ShowString(32,4,"ZD Test",16);
+			OLED_ShowString(32,4,"Motor Test",16);
 			OLED_ShowString(32,6,"EXIT",16);
 }
 
 void fun3_1(void)
 {
+		if(SettingFlag ==1){
+			OLED_Clear();
+			SettingFlag =0;
+		}
+		OLED_ShowString(40,0,"Temp Set",16);
+		
 }
 
 void fun3_2(void)
 {
+		if(SettingFlag ==1){
+			OLED_Clear();
+			SettingFlag =0;
+		}	
+		OLED_ShowString(40,0,"ZD Set",16);
+		
 }
 
 void fun3_3(void)
 {
+		if(SettingFlag ==1){
+			OLED_Clear();
+			SettingFlag =0;
+		}
+		OLED_ShowString(40,0,"Motor Set",16);
 }
 
 
