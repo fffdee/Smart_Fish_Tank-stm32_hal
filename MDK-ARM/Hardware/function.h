@@ -13,8 +13,11 @@ void fun2_4(void);
 
 void fun3_1(void);
 void fun3_2(void);
-void fun3_3(void);
 
+void fun3_3_1(void);
+void fun3_3_2(void);
+void fun3_3_3(void);
+void fun3_3_4(void);
 
 
 

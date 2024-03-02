@@ -21,6 +21,13 @@ extern int T,i;
 extern unsigned char  rcData;
 extern uint16_t ADC_Value;  //ADCֵ
 
+extern unsigned char SettingFlag ;
+extern unsigned char MotorFlag1 ;
+extern unsigned char MotorFlag2 ;
+extern unsigned char MotorFlag3 ;
+extern unsigned char ExtTemp ;
+extern unsigned int ExtZD; 
+
 uint8_t LED_FLAG = 0;
 uint8_t BEEP_FLAG = 0;
 
@@ -58,9 +65,9 @@ key_table table[30]=
 
     {1,4,2,5,fun2_1},	
 
-    {2,1,3,5,fun2_2},                
+    {2,1,3,6,fun2_2},                
 
-    {3,2,4,6,fun2_3},
+    {3,2,4,7,fun2_3},
 		
 		{4,3,1,0,fun2_4},
 		
@@ -68,8 +75,13 @@ key_table table[30]=
 		
 		{6,6,6,2,fun3_2}, 
 		     	
-		{7,7,7,3,fun3_3},
+		{7,10,8,7,fun3_3_1},
 
+		{8,7,9,8,fun3_3_2},
+		
+		{9,8,10,9,fun3_3_3},
+		
+		{10,9,7,1,fun3_3_4},
 
 	
                                                                                  
@@ -116,23 +128,23 @@ int main(void)
 
                                      delay_us(2000);
 
-                                     if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4)==0)
+                                     if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_5)==0)
 
                                      {
 
                                      func_index=table[func_index].up; 
 
-                                     while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4));
+                                     while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_5));
 
                                      }
 
-                                     if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_5)==0)
+                                     if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4)==0)
 
                                      {
 
                                      func_index=table[func_index].down;
 
-                                     while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_5)); 
+                                     while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4)); 
 
                                      }
 
@@ -142,12 +154,12 @@ int main(void)
 
 																				 func_index=table[func_index].enter; 
 
-																				 while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_5));
+																				 while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6));
 
                                      }
 
 
-                              OLED_Init();
+                              
 
                            }                                    
 
@@ -155,7 +167,11 @@ int main(void)
 
                             (*current_operation_index)();
 
-
+													 if(MotorFlag1==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
+													 
+													 if(MotorFlag2==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
+													 
+													 if(MotorFlag3==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
 
 //		if(LED_FLAG==1){
 //				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
