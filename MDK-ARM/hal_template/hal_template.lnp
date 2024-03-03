@@ -31,6 +31,7 @@
 "hal_template\oled.o"
 "hal_template\tsw_30.o"
 "hal_template\function.o"
+"hal_template\motor.o"
 "hal_template\event_groups.o"
 "hal_template\list.o"
 "hal_template\queue.o"

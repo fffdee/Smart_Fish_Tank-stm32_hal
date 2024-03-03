@@ -34,6 +34,7 @@ hal_template\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h
 hal_template\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart.h
 hal_template\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart_ex.h
 hal_template\main.o: .\Hardware\LED\led.h
+hal_template\main.o: .\Hardware\motor\motor.h
 hal_template\main.o: .\Hardware\BEEP\beep.h
 hal_template\main.o: .\Hardware\KEY\key.h
 hal_template\main.o: .\Hardware\DS18B20\ds18b20.h

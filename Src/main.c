@@ -1,5 +1,6 @@
 #include "main.h"
 #include "led.h"
+#include "motor.h"
 #include "beep.h"
 #include "key.h"
 #include "ds18b20.h"
@@ -98,6 +99,7 @@ int main(void)
 	UARST1_Init();
 	NVIC_Init();
 	LED_Init();
+	MOTOR_Init();
 	BEEP_Init();
 	KEY_Init();
 	DS18B20_Init();
@@ -205,14 +207,14 @@ int main(void)
   }
 
 }
-//void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) //进入ADC中断
-//{
-//	if(hadc->Instance==ADC1) //判断是否为ADC1的中断
-//	{
-//		
-//		OLED_ShowNum(8,2,HAL_ADC_GetValue(hadc),3,16);
-//	}
-//}
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) //进入ADC中断
+{
+	if(hadc->Instance==ADC1) //判断是否为ADC1的中断
+	{
+		
+		OLED_ShowNum(8,2,HAL_ADC_GetValue(hadc),3,16);
+	}
+}
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {

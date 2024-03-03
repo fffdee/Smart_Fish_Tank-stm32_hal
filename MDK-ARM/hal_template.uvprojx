@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F031x6,USE_HAL_DRIVER,STM32F031x6</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F0xx_HAL_Driver/Inc;../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F0xx/Include;../Drivers/CMSIS/Include;.\Hardware\BEEP;.\Hardware\LED;.\Hardware\KEY;.\Hardware\DS18B20;.\Hardware\UARST;..\Drivers\STM32F0xx_HAL_Driver\Inc;.\FreeRTOS\include;.\Hardware\oled;.\Hardware\TSW-30;.\Hardware</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F0xx_HAL_Driver/Inc;../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F0xx/Include;../Drivers/CMSIS/Include;.\Hardware\BEEP;.\Hardware\LED;.\Hardware\KEY;.\Hardware\DS18B20;.\Hardware\UARST;..\Drivers\STM32F0xx_HAL_Driver\Inc;.\FreeRTOS\include;.\Hardware\oled;.\Hardware\TSW-30;.\Hardware;.\Hardware\motor</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -562,6 +562,11 @@
               <FileName>function.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\function.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\motor\motor.c</FilePath>
             </File>
           </Files>
         </Group>
