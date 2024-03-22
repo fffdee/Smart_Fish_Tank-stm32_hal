@@ -23,7 +23,7 @@
     android:layout_gravity="center"
     android:orientation="horizontal">
     <Button
-        android:text="左转"
+        android:text="电机1"
         android:textSize="30sp"
         android:id="@+id/LEFT"
         android:layout_width="100dp"
@@ -42,7 +42,7 @@
         android:textSize="20sp" />
 
     <Button
-        android:text="右转"
+        android:text="电机2"
         android:textSize="30sp"
         android:id="@+id/RIGHT"
         android:background="@drawable/button3"
