@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    android:background="@drawable/p1"
+   >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="鱼缸数据"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="____________________________________________________________________________________________________"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            tools:ignore="SmallSp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前温度：25°"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                tools:ignore="SmallSp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前浊度：3760"
+                android:layout_marginStart="20sp"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                tools:ignore="SmallSp" />
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="____________________________________________________________________________________________________"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            tools:ignore="SmallSp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="预设值:"
+            android:textSize="28sp"
+
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="预设温度：25°"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                tools:ignore="SmallSp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="预设浊度：3760"
+                android:layout_marginStart="20sp"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                tools:ignore="SmallSp" />
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="____________________________________________________________________________________________________"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            tools:ignore="SmallSp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="状态值:"
+            android:textSize="28sp"
+
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="电机1：关闭"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                tools:ignore="SmallSp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="电机2：关闭"
+                android:layout_marginStart="20sp"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                tools:ignore="SmallSp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="加热：关闭"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                tools:ignore="SmallSp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="水位：达标"
+                android:layout_marginStart="20sp"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                tools:ignore="SmallSp" />
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="____________________________________________________________________________________________________"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            tools:ignore="SmallSp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="控制:"
+            android:textSize="28sp"
+
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:text="电机1"
+                android:textSize="25sp"
+                android:id="@+id/LEFT"
+                android:layout_width="wrap_content"
+                android:layout_height="80sp"
+                android:layout_marginRight="30sp"
+                android:background="@drawable/button3"/>
+
+            <ToggleButton
+                android:id="@+id/FAN"
+                android:layout_width="100sp"
+                android:layout_height="90sp"
+                android:layout_gravity="center"
+                android:background="@drawable/button3"
+                android:textOff="开启加热"
+                android:textOn="关闭加热"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/RIGHT"
+                android:layout_width="wrap_content"
+                android:layout_height="80sp"
+                android:layout_marginLeft="25sp"
+                android:background="@drawable/button3"
+                android:text="电机2"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="____________________________________________________________________________________________________"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            tools:ignore="SmallSp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="设置值:"
+            android:textSize="28sp"
+
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ToggleButton
+                android:id="@+id/SetMode"
+                android:layout_width="100dp"
+                android:layout_height="90dp"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:background="@drawable/button3"
+                android:textOff="温度"
+                android:textOn="浊度"
+                android:textSize="20sp" />
+            <EditText
+                android:layout_width="100sp"
+                android:layout_height="40sp"
+                android:hint="设置值"
+                android:textColor="@color/black"
+                android:textColorHint="#666"
+                android:layout_marginLeft="20sp"
+                android:inputType="number"
+
+                android:background="@color/white"/>
+            <Button
+                android:layout_marginTop="20sp"
+                android:text="发送数据"
+                android:textSize="25sp"
+                android:id="@+id/GO"
+                android:layout_margin="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

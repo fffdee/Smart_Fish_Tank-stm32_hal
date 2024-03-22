@@ -1,4 +1,4 @@
-package com.example.wificar;
+package com.example.two_dog_fish_tank;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
-        @Override
+    @Override
     public void onClick(View v) {
         if(v.getId()==R.id.B1){
 
 
-            Intent intent = new Intent(MainActivity.this,car.class);
+            Intent intent = new Intent(MainActivity.this,fishtank.class);
             Bundle bundle = new Bundle();
             bundle.putString("IP",editText.toString());
             intent.putExtras(bundle);

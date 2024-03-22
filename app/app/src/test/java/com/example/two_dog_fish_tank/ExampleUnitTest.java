@@ -1,4 +1,4 @@
-package com.example.wificar;
+package com.example.two_dog_fish_tank;
 
 import org.junit.Test;
 

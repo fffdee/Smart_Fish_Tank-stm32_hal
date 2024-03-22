@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.wificar"
-        minSdkVersion 21
-        targetSdkVersion  26
+        applicationId "com.example.two_dog_fish_tank"
+        minSdkVersion 30
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
 

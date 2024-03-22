@@ -1,4 +1,4 @@
-package com.example.wificar;
+package com.example.two_dog_fish_tank;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,7 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
 
-public class car extends AppCompatActivity implements View.OnTouchListener,View.OnClickListener{
+public class fishtank extends AppCompatActivity implements View.OnTouchListener,View.OnClickListener{
     private Handler handler;
     private final int LEFT = 1;
     private final int RIGHT = 2;
@@ -41,9 +41,9 @@ public class car extends AppCompatActivity implements View.OnTouchListener,View.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_car);
+        setContentView(R.layout.activity_fishtank);
         findViewById(R.id.GO).setOnTouchListener(this);
-        findViewById(R.id.BACK).setOnTouchListener(this);
+
         findViewById(R.id.LEFT).setOnTouchListener(this);
         findViewById(R.id.RIGHT).setOnTouchListener(this);
         findViewById(R.id.FAN).setOnClickListener(this);
@@ -51,14 +51,11 @@ public class car extends AppCompatActivity implements View.OnTouchListener,View.
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         ip = bundle.getString("IP","");
-        Toast.makeText(car.this,"获取IP:"+ip,Toast.LENGTH_SHORT).show();
+        Toast.makeText(fishtank.this,"获取IP:"+ip,Toast.LENGTH_SHORT).show();
         HandlerThread handlerThread = new HandlerThread("Http");
         handlerThread.start();
-        editText1 = findViewById(R.id.E1);
-        editText2 = findViewById(R.id.E2);
 
-        T1 = findViewById(R.id.TB1);
-        findViewById(R.id.TB1).setOnClickListener(this);
+
         handler = new HttpHandler(handlerThread.getLooper());
 
     }
@@ -68,218 +65,131 @@ public class car extends AppCompatActivity implements View.OnTouchListener,View.
         if(v.getId()==R.id.FAN){
             handler.sendEmptyMessage(FAN);
         }
-        else if(v.getId()==R.id.TB1){
-            handler.sendEmptyMessage(TIME);
-        }
 
     }
 
     private class HttpHandler extends Handler {
         public HttpHandler(Looper looper) {
-        super(looper);
-    }
+            super(looper);
+        }
 
         @Override
         public void handleMessage(Message msg) {
-        switch (msg.what) {
-            case LEFT:
-                left();
-                break;
-            case RIGHT:
-                right();
-                break;
-            case GO:
-                go();
-                break;
-            case BACK:
-                back();
-                break;
-            case GET1:
-                get1();
-                break;
-            case GET2:
-                get2();
-                break;
-            case GET3:
-                get3();
-                break;
-            case GET4:
-                get4();
-                break;
-            case FAN:
-                fan();
-                break;
-            case TIME:
-                time();
-                break;
-            default:
-                break;
-        }
-    }
+            switch (msg.what) {
+                case LEFT:
+                    left();
+                    break;
+                case RIGHT:
+                    right();
+                    break;
+                case GO:
+                    go();
+                    break;
+                case BACK:
+                    back();
+                    break;
+                case GET1:
+                    get1();
+                    break;
+                case GET2:
+                    get2();
+                    break;
+                case GET3:
+                    get3();
+                    break;
+                case GET4:
+                    get4();
+                    break;
+                case FAN:
+                    fan();
+                    break;
 
-
-
-
-    }
-    private void time() {
-
-            if(T1.isChecked()){
-
-                String hour = editText1.getText().toString();
-                String min  = editText2.getText().toString();
-
-                String registerUrl = "http://"+ip+"/Time?hour="+hour+"&min="+min+"&val=1";
-                try
-                {
-                    URL url = new URL(registerUrl);
-                    final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("GET");
-                    httpURLConnection.setConnectTimeout(1000 * 5);
-                    httpURLConnection.setReadTimeout(1000 * 5);
-                    httpURLConnection.setDoInput(true);
-                    httpURLConnection.connect();
-
-                    final StringBuilder buffer = new StringBuilder();
-                    int code = httpURLConnection.getResponseCode();
-                    if (code == 200)
-                    {
-                        httpURLConnection.disconnect();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                        String line = null;
-                        while ((line = bufferedReader.readLine()) != null)
-                        {
-                            buffer.append(line);
-                        }
-                        runOnUiThread(() -> {
-
-                            // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                        });
-                    }
-                    httpURLConnection.disconnect();
-
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-
-            }else{
-
-                String hour = editText1.getText().toString();
-                String min  = editText2.getText().toString();
-                String registerUrl = "http://"+ip+"/Time?hour="+hour+"&min="+min+"&val=0";
-                try
-                {
-                    URL url = new URL(registerUrl);
-                    final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("GET");
-                    httpURLConnection.setConnectTimeout(1000 * 5);
-                    httpURLConnection.setReadTimeout(1000 * 5);
-                    httpURLConnection.setDoInput(true);
-                    httpURLConnection.connect();
-
-                    final StringBuilder buffer = new StringBuilder();
-                    int code = httpURLConnection.getResponseCode();
-                    if (code == 200)
-                    {
-                        httpURLConnection.disconnect();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                        String line = null;
-                        while ((line = bufferedReader.readLine()) != null)
-                        {
-                            buffer.append(line);
-                        }
-                        runOnUiThread(() -> {
-
-                            // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                        });
-                    }
-                    httpURLConnection.disconnect();
-
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-
+                default:
+                    break;
             }
+        }
+
+
+
+
     }
+
     private void fan(){
         if(toggleButton.isChecked()){
 
 
-                String registerUrl = "http://"+ip+"/control?fan=0";
-                try
+            String registerUrl = "http://"+ip+"/control?fan=0";
+            try
+            {
+                URL url = new URL(registerUrl);
+                final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("GET");
+                httpURLConnection.setConnectTimeout(1000 * 5);
+                httpURLConnection.setReadTimeout(1000 * 5);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                final StringBuilder buffer = new StringBuilder();
+                int code = httpURLConnection.getResponseCode();
+                if (code == 200)
                 {
-                    URL url = new URL(registerUrl);
-                    final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("GET");
-                    httpURLConnection.setConnectTimeout(1000 * 5);
-                    httpURLConnection.setReadTimeout(1000 * 5);
-                    httpURLConnection.setDoInput(true);
-                    httpURLConnection.connect();
-
-                    final StringBuilder buffer = new StringBuilder();
-                    int code = httpURLConnection.getResponseCode();
-                    if (code == 200)
-                    {
-                        httpURLConnection.disconnect();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                        String line = null;
-                        while ((line = bufferedReader.readLine()) != null)
-                        {
-                            buffer.append(line);
-                        }
-                        runOnUiThread(() -> {
-
-                            // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                        });
-                    }
                     httpURLConnection.disconnect();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                    String line = null;
+                    while ((line = bufferedReader.readLine()) != null)
+                    {
+                        buffer.append(line);
+                    }
+                    runOnUiThread(() -> {
 
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
+                        // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
+                    });
                 }
+                httpURLConnection.disconnect();
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
 
         }else{
 
 
-                String registerUrl = "http://"+ip+"/control?fan=1";
-                try
+            String registerUrl = "http://"+ip+"/control?fan=1";
+            try
+            {
+                URL url = new URL(registerUrl);
+                final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("GET");
+                httpURLConnection.setConnectTimeout(1000 * 5);
+                httpURLConnection.setReadTimeout(1000 * 5);
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                final StringBuilder buffer = new StringBuilder();
+                int code = httpURLConnection.getResponseCode();
+                if (code == 200)
                 {
-                    URL url = new URL(registerUrl);
-                    final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("GET");
-                    httpURLConnection.setConnectTimeout(1000 * 5);
-                    httpURLConnection.setReadTimeout(1000 * 5);
-                    httpURLConnection.setDoInput(true);
-                    httpURLConnection.connect();
-
-                    final StringBuilder buffer = new StringBuilder();
-                    int code = httpURLConnection.getResponseCode();
-                    if (code == 200)
-                    {
-                        httpURLConnection.disconnect();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                        String line = null;
-                        while ((line = bufferedReader.readLine()) != null)
-                        {
-                            buffer.append(line);
-                        }
-                        runOnUiThread(() -> {
-
-                            // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                        });
-                    }
                     httpURLConnection.disconnect();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                    String line = null;
+                    while ((line = bufferedReader.readLine()) != null)
+                    {
+                        buffer.append(line);
+                    }
+                    runOnUiThread(() -> {
 
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
+                        // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
+                    });
                 }
+                httpURLConnection.disconnect();
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -617,13 +527,7 @@ public class car extends AppCompatActivity implements View.OnTouchListener,View.
                     handler.sendEmptyMessage(GET2);
                 }
                 break;
-            case R.id.BACK:
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    handler.sendEmptyMessage(BACK);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    handler.sendEmptyMessage(GET4);
-                }
-                break;
+
             case R.id.GO:
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     handler.sendEmptyMessage(GO);
