@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="15dp"
-    android:background="@drawable/p1"
+    android:background="@color/black"
    >
     <LinearLayout
         android:layout_width="wrap_content"
@@ -44,6 +44,7 @@
             android:orientation="horizontal"
             android:gravity="center">
             <TextView
+                android:id="@+id/Ttemp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="当前温度：25°"
@@ -53,6 +54,7 @@
                 android:textColor="@color/white"
                 tools:ignore="SmallSp" />
             <TextView
+                android:id="@+id/Tzhuod"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="当前浊度：3760"
@@ -90,6 +92,7 @@
             android:orientation="horizontal"
             android:gravity="center">
             <TextView
+                android:id="@+id/Tptemp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="预设温度：25°"
@@ -99,6 +102,7 @@
                 android:textColor="@color/white"
                 tools:ignore="SmallSp" />
             <TextView
+                android:id="@+id/Tpzhuod"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="预设浊度：3760"
@@ -136,6 +140,7 @@
             android:orientation="horizontal"
             android:gravity="center">
             <TextView
+                android:id="@+id/motorFlag1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="电机1：关闭"
@@ -145,6 +150,7 @@
                 android:textColor="@color/white"
                 tools:ignore="SmallSp" />
             <TextView
+                android:id="@+id/motorFlag2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="电机2：关闭"
@@ -164,6 +170,7 @@
             android:orientation="horizontal"
             android:gravity="center">
             <TextView
+                android:id="@+id/hotFlag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="加热：关闭"
@@ -173,6 +180,7 @@
                 android:textColor="@color/white"
                 tools:ignore="SmallSp" />
             <TextView
+                android:id="@+id/waterFlag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="水位：达标"
@@ -212,14 +220,14 @@
             <Button
                 android:text="电机1"
                 android:textSize="25sp"
-                android:id="@+id/LEFT"
+                android:id="@+id/MOTOR1"
                 android:layout_width="wrap_content"
                 android:layout_height="80sp"
                 android:layout_marginRight="30sp"
                 android:background="@drawable/button3"/>
 
             <ToggleButton
-                android:id="@+id/FAN"
+                android:id="@+id/HOT"
                 android:layout_width="100sp"
                 android:layout_height="90sp"
                 android:layout_gravity="center"
@@ -230,7 +238,7 @@
                 android:textSize="20sp" />
 
             <Button
-                android:id="@+id/RIGHT"
+                android:id="@+id/MOTOR2"
                 android:layout_width="wrap_content"
                 android:layout_height="80sp"
                 android:layout_marginLeft="25sp"
@@ -278,6 +286,7 @@
                 android:textOn="浊度"
                 android:textSize="20sp" />
             <EditText
+                android:id="@+id/Emode"
                 android:layout_width="100sp"
                 android:layout_height="40sp"
                 android:hint="设置值"

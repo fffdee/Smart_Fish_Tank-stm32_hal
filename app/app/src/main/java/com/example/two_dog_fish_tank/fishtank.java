@@ -12,6 +12,7 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -25,29 +26,43 @@ import java.util.Calendar;
 
 public class fishtank extends AppCompatActivity implements View.OnTouchListener,View.OnClickListener{
     private Handler handler;
-    private final int LEFT = 1;
-    private final int RIGHT = 2;
-    private final int GO = 3;
-    private final int BACK = 4;
+    private final int MOTOR1 = 1;
+    private final int MOTOR2 = 2;
+    private final int SEND = 3;
     private final int GET1 = 5;
     private final int GET2 = 6;
-    private final int GET3 = 7;
-    private final int GET4 = 8;
-    private final int FAN = 9;
-    private final int TIME= 10;
+    private final int HOT = 9;
+
     private ToggleButton toggleButton,T1;
     String ip;
-    private EditText editText1,editText2;
+    private EditText editText;
+    private TextView Ttemp,Tptemp,Tzhuod,Tpzhuod,motor1,motor2,hotflag,waterflag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fishtank);
         findViewById(R.id.GO).setOnTouchListener(this);
 
-        findViewById(R.id.LEFT).setOnTouchListener(this);
-        findViewById(R.id.RIGHT).setOnTouchListener(this);
-        findViewById(R.id.FAN).setOnClickListener(this);
-        toggleButton = findViewById(R.id.FAN);
+        findViewById(R.id.MOTOR1).setOnTouchListener(this);
+        findViewById(R.id.MOTOR2).setOnTouchListener(this);
+        findViewById(R.id.HOT).setOnClickListener(this);
+
+        toggleButton = findViewById(R.id.HOT);
+        Ttemp = findViewById(R.id.Ttemp);
+        Tptemp = findViewById(R.id.Tptemp);
+        Tzhuod = findViewById(R.id.Tzhuod);
+        Tpzhuod = findViewById(R.id.Tpzhuod);
+        motor1 = findViewById(R.id.motorFlag1);
+        motor2 = findViewById(R.id.motorFlag2);
+        hotflag = findViewById(R.id.hotFlag);
+        waterflag = findViewById(R.id.waterFlag);
+
+        editText = findViewById(R.id.Emode);
+
+        findViewById(R.id.SetMode).setOnClickListener(this);
+        findViewById(R.id.MOTOR1).setOnTouchListener(this);
+        findViewById(R.id.MOTOR2).setOnTouchListener(this);
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         ip = bundle.getString("IP","");
@@ -62,9 +77,11 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.FAN){
-            handler.sendEmptyMessage(FAN);
-        }
+        if(v.getId()==R.id.HOT)
+            handler.sendEmptyMessage(HOT);
+
+        else if(v.getId()==R.id.SetMode)
+            handler.sendEmptyMessage(SEND);
 
     }
 
@@ -76,32 +93,25 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case LEFT:
-                    left();
+                case MOTOR1:
+                    MOTOR1();
                     break;
-                case RIGHT:
-                    right();
+                case MOTOR2:
+                    MOTOR2();
                     break;
-                case GO:
-                    go();
-                    break;
-                case BACK:
-                    back();
-                    break;
+
                 case GET1:
                     get1();
                     break;
                 case GET2:
                     get2();
                     break;
-                case GET3:
-                    get3();
+
+                case SEND:
+                    send();
                     break;
-                case GET4:
-                    get4();
-                    break;
-                case FAN:
-                    fan();
+                case HOT:
+                    HOT();
                     break;
 
                 default:
@@ -114,11 +124,11 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
 
     }
 
-    private void fan(){
+    private void HOT(){
         if(toggleButton.isChecked()){
 
 
-            String registerUrl = "http://"+ip+"/control?fan=0";
+            String registerUrl = "http://"+ip+"/control?HOT=0";
             try
             {
                 URL url = new URL(registerUrl);
@@ -156,7 +166,7 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         }else{
 
 
-            String registerUrl = "http://"+ip+"/control?fan=1";
+            String registerUrl = "http://"+ip+"/control?HOT=1";
             try
             {
                 URL url = new URL(registerUrl);
@@ -193,51 +203,13 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
 
         }
     }
-    @SuppressLint("SetTextI18n")
-    private void go() {
 
-
-        String registerUrl = "https://api.bemfa.com/api/device/v1/data/1?uid=c03b0385d6468c31245bd9f86236fc4d&topic=led&msg=on";
-        try
-        {
-            URL url = new URL(registerUrl);
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(1000 * 5);
-            httpURLConnection.setReadTimeout(1000 * 5);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
-
-            final StringBuilder buffer = new StringBuilder();
-            int code = httpURLConnection.getResponseCode();
-            if (code == 200)
-            {
-                httpURLConnection.disconnect();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String line = null;
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    buffer.append(line);
-                }
-                runOnUiThread(() -> {
-
-                    // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                });
-            }
-            httpURLConnection.disconnect();
-
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     private void get1() {
 
 
-        String registerUrl = "https://api.bemfa.com/api/device/v1/data/1?uid=c03b0385d6468c31245bd9f86236fc4d&topic=led&msg=off";
+        String registerUrl = "http://"+ip+"/control?HOT=1";
         try
         {
             URL url = new URL(registerUrl);
@@ -273,10 +245,10 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         }
     }
     @SuppressLint("SetTextI18n")
-    private void left() {
+    private void MOTOR1() {
 
 
-        String registerUrl = "http://"+ip+"/control?left=1";
+        String registerUrl = "http://"+ip+"/control?MOTOR1=1";
         try
         {
             URL url = new URL(registerUrl);
@@ -315,7 +287,7 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
     private void get2() {
 
 
-        String registerUrl = "http://"+ip+"/control?left=0";
+        String registerUrl = "http://"+ip+"/control?MOTOR2=0";
         try
         {
             URL url = new URL(registerUrl);
@@ -351,48 +323,9 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         }
     }
     @SuppressLint("SetTextI18n")
-    private void right() {
+    private void MOTOR2() {
 
-        String registerUrl = "http://"+ip+"/control?right=1";
-        try
-        {
-            URL url = new URL(registerUrl);
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(1000 * 5);
-            httpURLConnection.setReadTimeout(1000 * 5);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
-
-            final StringBuilder buffer = new StringBuilder();
-            int code = httpURLConnection.getResponseCode();
-            if (code == 200)
-            {
-                httpURLConnection.disconnect();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String line = null;
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    buffer.append(line);
-                }
-                runOnUiThread(() -> {
-
-                    // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                });
-            }
-            httpURLConnection.disconnect();
-
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-    @SuppressLint("SetTextI18n")
-    private void get3() {
-
-
-        String registerUrl = "http://"+ip+"/control?right=0";
+        String registerUrl = "http://"+ip+"/control?MOTOR2=1";
         try
         {
             URL url = new URL(registerUrl);
@@ -468,7 +401,7 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         }
     }
     @SuppressLint("SetTextI18n")
-    private void get4() {
+    private void send() {
 
 
         String registerUrl = "http://"+ip+"/control?back=0";
@@ -513,28 +446,21 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
     public boolean onTouch(View v, MotionEvent event) {
 
         switch (v.getId()) {
-            case R.id.RIGHT:
+            case R.id.MOTOR2:
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    handler.sendEmptyMessage(RIGHT);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    handler.sendEmptyMessage(GET3);
-                }
-                break;
-            case R.id.LEFT:
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    handler.sendEmptyMessage(LEFT);
+                    handler.sendEmptyMessage(MOTOR2);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     handler.sendEmptyMessage(GET2);
                 }
                 break;
-
-            case R.id.GO:
+            case R.id.MOTOR1:
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    handler.sendEmptyMessage(GO);
+                    handler.sendEmptyMessage(MOTOR1);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     handler.sendEmptyMessage(GET1);
                 }
                 break;
+
 
             default:
                 break;
