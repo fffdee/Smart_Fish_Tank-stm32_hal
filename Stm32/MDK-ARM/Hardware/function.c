@@ -6,7 +6,7 @@
 #include "uarst1.h"
 #include "oled.h"
 #include "tsw_30.h"
-
+#include "main.h"
 extern ADC_HandleTypeDef hadc;
 extern UART_HandleTypeDef huart1;
 unsigned char Uart1_RxBuff[256]="ready recive";
@@ -15,11 +15,12 @@ int T,i;
 unsigned char  rcData = 's';
 uint16_t ADC_Value;  //ADCֵ 
 unsigned char SettingFlag =1;
-unsigned char MotorFlag1 =0;
+//unsigned char state_unit.MotorFlag1 =0;
 unsigned char MotorFlag2 =0;
 unsigned char MotorFlag3 =0;
 unsigned char ExtTemp =25;
 unsigned int ExtZD =3400;
+
 
 void fun1(void)
 {
@@ -36,7 +37,7 @@ void fun1(void)
 		OLED_ShowString(0,4,"M1:",16);
 		OLED_ShowString(40,4,"M2:",16);
 		OLED_ShowString(80,4,"M3:",16);
-		OLED_ShowNum(24,4,MotorFlag1,1,16);
+		OLED_ShowNum(24,4,state_unit.MotorFlag1,1,16);
 		OLED_ShowNum(64,4,MotorFlag2,1,16);
 		OLED_ShowNum(104,4,MotorFlag3,1,16);
 	
@@ -249,7 +250,7 @@ void fun3_3_1(void)
 		OLED_ShowString(0,2,"->",16);
 		OLED_ShowString(32,4,"Motor 2",16);
 		OLED_ShowString(32,6,"Motor 3",16);
-		if(MotorFlag1==0)OLED_ShowString(96,2,"OFF",16);
+		if(state_unit.MotorFlag1==0)OLED_ShowString(96,2,"OFF",16);
 		else OLED_ShowString(96,2,"ON ",16);
 		if(MotorFlag2==0)OLED_ShowString(96,4,"OFF",16);
 		else OLED_ShowString(96,4,"ON ",16);
@@ -258,8 +259,8 @@ void fun3_3_1(void)
 		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0)
 
      {
-			 if(MotorFlag1==0) MotorFlag1=1;
-			 else MotorFlag1=0;
+			 if(state_unit.MotorFlag1==0) state_unit.MotorFlag1=1;
+			 else state_unit.MotorFlag1=0;
 					
 				 
          while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)); 
@@ -289,7 +290,7 @@ void fun3_3_2(void)
 		OLED_ShowString(32,4,"Motor 2",16);
 		OLED_ShowString(0,4,"->",16);
 		OLED_ShowString(32,6,"Motor 3",16);
-			if(MotorFlag1==0)OLED_ShowString(96,2,"OFF",16);
+			if(state_unit.MotorFlag1==0)OLED_ShowString(96,2,"OFF",16);
 		else OLED_ShowString(96,2,"ON ",16);
 		if(MotorFlag2==0)OLED_ShowString(96,4,"OFF",16);
 		else OLED_ShowString(96,4,"ON ",16);
@@ -319,7 +320,7 @@ void fun3_3_3(void)
 		OLED_ShowString(32,4,"Motor 2",16);
 		OLED_ShowString(32,6,"Motor 3",16);
 		OLED_ShowString(0,6,"->",16);
-			if(MotorFlag1==0)OLED_ShowString(96,2,"OFF",16);
+			if(state_unit.MotorFlag1==0)OLED_ShowString(96,2,"OFF",16);
 		else OLED_ShowString(96,2,"ON ",16);
 		if(MotorFlag2==0)OLED_ShowString(96,4,"OFF",16);
 		else OLED_ShowString(96,4,"ON ",16);

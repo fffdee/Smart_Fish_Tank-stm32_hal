@@ -1,7 +1,7 @@
 Dependencies for Project 'hal_template', Target 'hal_template': (DO NOT MODIFY !)
 F (startup_stm32f031x6.s)(0x6470D862)(--cpu Cortex-M0 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include--pd "__UVISION_VERSION SETA 527" --pd "_RTE_ SETA 1" --pd "STM32F031x6 SETA 1"--list startup_stm32f031x6.lst --xref -o hal_template\startup_stm32f031x6.o --depend hal_template\startup_stm32f031x6.d)
-F (../Src/main.c)(0x65E3F0B4)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\main.o --omf_browse hal_template\main.crf --depend hal_template\main.d)
-I (../Inc/main.h)(0x5E3AD92B)
+F (../Src/main.c)(0x6602F6DF)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\main.o --omf_browse hal_template\main.crf --depend hal_template\main.d)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -35,7 +35,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart_ex.h)(0x5D580AA0)
 I (.\Hardware\LED\led.h)(0x6470401B)
-I (.\Hardware\motor\motor.h)(0x65E3F0B4)
+I (.\Hardware\motor\motor.h)(0x6602F72C)
 I (.\Hardware\BEEP\beep.h)(0x6470401B)
 I (.\Hardware\KEY\key.h)(0x6470415F)
 I (.\Hardware\DS18B20\ds18b20.h)(0x64707266)
@@ -47,7 +47,7 @@ I (E:\keil5\ARM\ARMCC\include\cstring)(0x5E53505C)
 I (E:\keil5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (.\Hardware\function.h)(0x65E097A1)
 F (../Src/stm32f0xx_it.c)(0x6470D8B0)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\stm32f0xx_it.o --omf_browse hal_template\stm32f0xx_it.crf --depend hal_template\stm32f0xx_it.d)
-I (../Inc/main.h)(0x5E3AD92B)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -82,7 +82,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart_ex.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_it.h)(0x5E3AD92A)
 F (../Src/stm32f0xx_hal_msp.c)(0x64723AC9)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\stm32f0xx_hal_msp.o --omf_browse hal_template\stm32f0xx_hal_msp.crf --depend hal_template\stm32f0xx_hal_msp.d)
-I (../Inc/main.h)(0x5E3AD92B)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -777,7 +777,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart_ex.h)(0x5D580AA0)
 F (.\Hardware\BEEP\beep.c)(0x647040E7)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\beep.o --omf_browse hal_template\beep.crf --depend hal_template\beep.d)
 I (Hardware\BEEP\beep.h)(0x6470401B)
-I (../Inc/main.h)(0x5E3AD92B)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -812,7 +812,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart_ex.h)(0x5D580AA0)
 F (.\Hardware\LED\led.c)(0x647040B4)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\led.o --omf_browse hal_template\led.crf --depend hal_template\led.d)
 I (Hardware\LED\led.h)(0x6470401B)
-I (../Inc/main.h)(0x5E3AD92B)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -847,7 +847,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart_ex.h)(0x5D580AA0)
 F (.\Hardware\KEY\key.c)(0x647041CE)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\key.o --omf_browse hal_template\key.crf --depend hal_template\key.d)
 I (Hardware\KEY\key.h)(0x6470415F)
-I (../Inc/main.h)(0x5E3AD92B)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -882,7 +882,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart_ex.h)(0x5D580AA0)
 F (.\Hardware\DS18B20\ds18b20.c)(0x647055C3)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\ds18b20.o --omf_browse hal_template\ds18b20.crf --depend hal_template\ds18b20.d)
 I (Hardware\DS18B20\ds18b20.h)(0x64707266)
-I (../Inc/main.h)(0x5E3AD92B)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -917,7 +917,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart_ex.h)(0x5D580AA0)
 F (.\Hardware\UARST\uarst1.c)(0x6471CF73)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\uarst1.o --omf_browse hal_template\uarst1.crf --depend hal_template\uarst1.d)
 I (Hardware\UARST\uarst1.h)(0x64706F05)
-I (../Inc/main.h)(0x5E3AD92B)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -954,7 +954,7 @@ I (E:\keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 F (.\Hardware\oled\oled.c)(0x65DF4326)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\oled.o --omf_browse hal_template\oled.crf --depend hal_template\oled.d)
 I (Hardware\oled\oled.h)(0x65DF4358)
 I (E:\keil5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
-I (../Inc/main.h)(0x5E3AD92B)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -989,7 +989,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart_ex.h)(0x5D580AA0)
 I (Hardware\oled\oledfont.h)(0x64719A57)
 F (.\Hardware\TSW-30\tsw_30.c)(0x647239B2)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\tsw_30.o --omf_browse hal_template\tsw_30.crf --depend hal_template\tsw_30.d)
 I (Hardware\TSW-30\tsw_30.h)(0x6471FF09)
-I (../Inc/main.h)(0x5E3AD92B)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -1022,9 +1022,9 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart.h)(0x5D580AA0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart_ex.h)(0x5D580AA0)
-F (.\Hardware\function.c)(0x65E345C1)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\function.o --omf_browse hal_template\function.crf --depend hal_template\function.d)
+F (.\Hardware\function.c)(0x6602F567)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\function.o --omf_browse hal_template\function.crf --depend hal_template\function.d)
 I (Hardware\function.h)(0x65E097A1)
-I (../Inc/main.h)(0x5E3AD92B)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)
@@ -1065,9 +1065,9 @@ I (.\Hardware\UARST\uarst1.h)(0x64706F05)
 I (E:\keil5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (.\Hardware\oled\oled.h)(0x65DF4358)
 I (.\Hardware\TSW-30\tsw_30.h)(0x6471FF09)
-F (.\Hardware\motor\motor.c)(0x65E3F368)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\motor.o --omf_browse hal_template\motor.crf --depend hal_template\motor.d)
-I (Hardware\motor\motor.h)(0x65E3F0B4)
-I (../Inc/main.h)(0x5E3AD92B)
+F (.\Hardware\motor\motor.c)(0x6602F720)(--c99 -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include -I .\Hardware\BEEP -I .\Hardware\LED -I .\Hardware\KEY -I .\Hardware\DS18B20 -I .\Hardware\UARST -I ..\Drivers\STM32F0xx_HAL_Driver\Inc -I .\FreeRTOS\include -I .\Hardware\oled -I .\Hardware\TSW-30 -I .\Hardware -I .\Hardware\motor-I.\RTE\_hal_template-IE:\keil5\pack\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IE:\keil5\pack\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="527" -D_RTE_ -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6 -DUSE_HAL_DRIVER -DSTM32F031x6-o hal_template\motor.o --omf_browse hal_template\motor.crf --depend hal_template\motor.d)
+I (Hardware\motor\motor.h)(0x6602F72C)
+I (../Inc/main.h)(0x6602F567)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x5D580AA0)
 I (../Inc/stm32f0xx_hal_conf.h)(0x6471FDCA)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x5D580AA0)

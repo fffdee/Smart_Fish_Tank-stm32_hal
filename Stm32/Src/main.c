@@ -23,12 +23,31 @@ extern unsigned char  rcData;
 extern uint16_t ADC_Value;  //ADC值
 
 extern unsigned char SettingFlag ;
-extern unsigned char MotorFlag1 ;
+//extern unsigned char MotorFlag1 ;
 extern unsigned char MotorFlag2 ;
 extern unsigned char MotorFlag3 ;
 extern unsigned char ExtTemp ;
 extern unsigned int ExtZD; 
 
+State_Unit state_unit;
+void Stata_Unit_Init(void)
+{
+		state_unit.wifi_ip = NULL;
+		state_unit.hotFlag = 0;
+		state_unit.MotorFlag1 = 0;
+		state_unit.MotorFlag2 = 0;
+		state_unit.MotorFlag3 = 0;
+		state_unit.ptemp = 25;
+		state_unit.waterFlag = 0;
+		state_unit.temp = DS18B20_Get_Temp();
+		state_unit.pzhuod = 3600;
+		if(HAL_ADC_PollForConversion(&hadc, 100)==HAL_OK )  //如果转换结果完成
+	  {
+			state_unit.zhuod = HAL_ADC_GetValue(&hadc);
+	  }
+		
+	
+}
 uint8_t LED_FLAG = 0;
 uint8_t BEEP_FLAG = 0;
 
@@ -119,7 +138,7 @@ int main(void)
 	TSW_Init();
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&rcData , 1);   //再开启接收中断
 	OLED_Clear();
-	
+	Stata_Unit_Init();
 	
   while (1)
   {
@@ -169,12 +188,7 @@ int main(void)
 
                             (*current_operation_index)();
 
-													 if(MotorFlag1==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
-													 
-													 if(MotorFlag2==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
-													 
-													 if(MotorFlag3==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
-
+													  MOTOR_Handle(state_unit);
 //		if(LED_FLAG==1){
 //				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
 //				delay_us(50000);
@@ -261,7 +275,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		{
 				LED_FLAG=0;
 				BEEP_FLAG=0;
-			OLED_Clear_H(2);
+			  OLED_Clear_H(2);
 				//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
 				
 				

@@ -23,4 +23,12 @@ void MOTOR_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
+void  MOTOR_Handle(State_Unit unit){
 
+	 if(unit.MotorFlag1==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
+													 
+	 if(unit.MotorFlag2==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
+													 
+	 if(unit.MotorFlag3==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
+
+}

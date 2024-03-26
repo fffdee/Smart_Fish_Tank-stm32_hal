@@ -62,6 +62,23 @@ void Error_Handler(void);
 
 /* USER CODE END Private defines */
 
+typedef struct{
+	
+		unsigned char *wifi_ip;
+		unsigned char MotorFlag1;
+		unsigned char MotorFlag2;
+		unsigned char MotorFlag3;
+		unsigned char waterFlag;
+		unsigned char hotFlag;
+	  short temp;
+		short ptemp;
+		uint32_t zhuod;
+		uint32_t pzhuod;
+		 
+		
+}State_Unit;
+
+extern State_Unit state_unit;
 #ifdef __cplusplus
 }
 #endif
