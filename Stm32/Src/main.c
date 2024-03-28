@@ -41,10 +41,10 @@ void Stata_Unit_Init(void)
 		state_unit.waterFlag = 0;
 		state_unit.temp = DS18B20_Get_Temp();
 		state_unit.pzhuod = 3600;
-		if(HAL_ADC_PollForConversion(&hadc, 100)==HAL_OK )  //如果转换结果完成
-	  {
-			state_unit.zhuod = HAL_ADC_GetValue(&hadc);
-	  }
+//		if(HAL_ADC_PollForConversion(&hadc, 100)==HAL_OK )  //如果转换结果完成
+//	  {
+//			state_unit.zhuod = HAL_ADC_GetValue(&hadc);
+//	  }
 		
 	
 }

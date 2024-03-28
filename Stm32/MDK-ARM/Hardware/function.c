@@ -49,9 +49,9 @@ void fun1(void)
 		OLED_ShowNum(96,6,state_unit.ptemp,2,16);
 	  OLED_ShowNum(96,2,state_unit.pzhuod,4,16);
 		//HAL_UART_Receive_IT(&huart1, (uint8_t *)&rcData, 1);
-		state_unit.temp_T=DS18B20_Get_state_unit.temp();
-		T=state_unit.temp_T%100;
-		OLED_ShowNum(24,6,state_unit.temp_T/10,2,16);
+		state_unit.temp=DS18B20_Get_Temp();
+		T=state_unit.temp%100;
+		OLED_ShowNum(24,6,state_unit.temp/10,2,16);
 		OLED_ShowNum(46,6,T,1,16);
 	//	OLED_ShowString(8,2,Uart1_RxBuff,16);
 		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
@@ -67,7 +67,7 @@ void fun2_1(void)
 		}
 			OLED_ClearSet();
 			OLED_ShowString(40,0,"Setting",16);
-			OLED_ShowString(32,2,"state_unit.temp Set",16);
+			OLED_ShowString(32,2,"Temp Set",16);
 			OLED_ShowString(0,2,"->",16);
 			OLED_ShowString(32,4,"ZD Set",16);
 			OLED_ShowString(32,6,"Motor Test",16);
@@ -94,7 +94,7 @@ void fun2_2(void)
 		 }
 			OLED_ClearSet();
 			OLED_ShowString(40,0,"Setting",16);
-			OLED_ShowString(32,2,"state_unit.temp Set",16);
+			OLED_ShowString(32,2,"Temp Set",16);
 			OLED_ShowString(0,4,"->",16);
 			OLED_ShowString(32,4,"ZD Set",16);
 			OLED_ShowString(32,6,"Motor Test",16);
@@ -112,7 +112,7 @@ void fun2_3(void)
 		 } 
 			OLED_ClearSet();
 			OLED_ShowString(40,0,"Setting",16);
-			OLED_ShowString(32,2,"state_unit.temp Set",16);
+			OLED_ShowString(32,2,"Temp Set",16);
 			OLED_ShowString(0,6,"->",16);
 			OLED_ShowString(32,4,"ZD Set",16);
 			OLED_ShowString(32,6,"Motor Test",16);
@@ -150,16 +150,16 @@ void fun3_1(void)
 			SettingFlag =0;
 		}
 		OLED_ClearSet();
-		OLED_ShowString(40,0,"state_unit.temp SET",16);
+		OLED_ShowString(40,0,"Temp SET",16);
 		//while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6));
-		OLED_ShowString(32,2,"state_unit.tempNOW:",16);
-		state_unit.temp_T=DS18B20_Get_state_unit.temp();
-		T=state_unit.temp_T%100;
-		OLED_ShowNum(96,2,state_unit.temp_T/10,2,16);
+		OLED_ShowString(32,2,"TempNOW:",16);
+		state_unit.temp=DS18B20_Get_Temp();
+		T=state_unit.temp%100;
+		OLED_ShowNum(96,2,state_unit.temp/10,2,16);
 		OLED_ShowString(112,2,".",16);
 		OLED_ShowNum(120,2,T,1,16);
 		OLED_ShowString(0,4,"->",16);
-		OLED_ShowString(32,4,"state_unit.ptemp",16);
+		OLED_ShowString(32,4,"Ptemp",16);
 		OLED_ShowNum(96,4,state_unit.ptemp,2,16);
 		OLED_ShowString(32,6,"PEnter2EXIT",16);
 		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
