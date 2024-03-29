@@ -41,9 +41,9 @@ void fun1(void)
 		
 	  if(HAL_ADC_PollForConversion(&hadc, 100)==HAL_OK )  //���ת��������
 	  {
-		  
-		printf("the adc value is %d\r\n",HAL_ADC_GetValue(&hadc));//��ȡ��ӡ������ô��ڴ�ӡ�������
-		OLED_ShowNum(24,2,HAL_ADC_GetValue(&hadc),4,16);
+		state_unit.zhuod = HAL_ADC_GetValue(&hadc);
+		printf("the adc value is %d\r\n",state_unit.zhuod);//��ȡ��ӡ������ô��ڴ�ӡ�������
+		OLED_ShowNum(24,2,state_unit.zhuod,4,16);
 	  }
 	  delay_us(50000);
 		OLED_ShowNum(96,6,state_unit.ptemp,2,16);
@@ -153,7 +153,7 @@ void fun3_1(void)
 		OLED_ShowString(40,0,"Temp SET",16);
 		//while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6));
 		OLED_ShowString(32,2,"TempNOW:",16);
-		state_unit.temp=DS18B20_Get_Temp();
+		
 		T=state_unit.temp%100;
 		OLED_ShowNum(96,2,state_unit.temp/10,2,16);
 		OLED_ShowString(112,2,".",16);
@@ -202,8 +202,8 @@ void fun3_2(void)
 	  if(HAL_ADC_PollForConversion(&hadc, 100)==HAL_OK )  //���ת��������
 	  {
 		  
-		printf("the adc value is %d\r\n",HAL_ADC_GetValue(&hadc));//��ȡ��ӡ������ô��ڴ�ӡ�������
-		OLED_ShowNum(96,2,HAL_ADC_GetValue(&hadc),4,16);
+		printf("the adc value is %d\r\n",state_unit.zhuod);//��ȡ��ӡ������ô��ڴ�ӡ�������
+		OLED_ShowNum(96,2,state_unit.zhuod,4,16);
 	  }
 		OLED_ShowString(32,4,"ZD-SET",16);
 		OLED_ShowNum(88,4,state_unit.pzhuod,4,16);

@@ -68,8 +68,10 @@ typedef struct{
 		unsigned char MotorFlag1;
 		unsigned char MotorFlag2;
 		unsigned char MotorFlag3;
-		unsigned char waterFlag;
+		unsigned char waterFlagUP;
+		unsigned char waterFlagDOWN;
 		unsigned char hotFlag;
+		unsigned char autoMode;
 	  short temp;
 		short ptemp;
 		uint32_t zhuod;
@@ -79,6 +81,7 @@ typedef struct{
 }State_Unit;
 
 extern State_Unit state_unit;
+
 #ifdef __cplusplus
 }
 #endif
