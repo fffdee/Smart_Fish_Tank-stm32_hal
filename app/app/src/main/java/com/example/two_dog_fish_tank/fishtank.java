@@ -9,12 +9,15 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -23,6 +26,11 @@ import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class fishtank extends AppCompatActivity implements View.OnTouchListener,View.OnClickListener{
     private Handler handler;
@@ -34,7 +42,7 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
     private final int HOT = 9;
 
     private ToggleButton toggleButton,T1;
-    String ip;
+
     private EditText editText;
     private TextView Ttemp,Tptemp,Tzhuod,Tpzhuod,motor1,motor2,hotflag,waterflag;
     @Override
@@ -63,15 +71,52 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         findViewById(R.id.MOTOR1).setOnTouchListener(this);
         findViewById(R.id.MOTOR2).setOnTouchListener(this);
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        ip = bundle.getString("IP","");
-        Toast.makeText(fishtank.this,"获取IP:"+ip,Toast.LENGTH_SHORT).show();
+
         HandlerThread handlerThread = new HandlerThread("Http");
         handlerThread.start();
 
 
         handler = new HttpHandler(handlerThread.getLooper());
+        Thread thread = new Thread(() -> {
+            // 循环执行
+            while (true) {
+                // 执行某个任务
+                try
+                {
+                    OkHttpClient client =new OkHttpClient();
+                    Request request=new Request.Builder().url("https://apis.bemfa.com/va/getmsg?uid=c03b0385d6468c31245bd9f86236fc4d&topic=fishtank&type=3").build();//使用newcall()创建一个call对象，并调用
+                    Response response= client.newCall(request).execute();
+                    //得到返回数据
+                    String data= response.body().string();
+                    Log.d("update", data);
+                    //post方式结束
+                    JSONObject jsonObject = new JSONObject(data);
+
+                    String msg = jsonObject.optString("data");
+                    String msg2 = msg.replace("["," ");
+                    msg = msg2.replace("]"," ");
+                    Log.d("msg",msg);
+                    JSONObject msg_data = new JSONObject(msg);
+
+                    String msg_1 = msg_data.optString("msg");
+
+                    Log.d("msg",msg_1);
+
+
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                // 延迟10秒
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+// 启动线程
+        thread.start();
 
     }
 
@@ -128,35 +173,27 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         if(toggleButton.isChecked()){
 
 
-            String registerUrl = "http://"+ip+"/control?HOT=0";
             try
             {
-                URL url = new URL(registerUrl);
-                final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("GET");
-                httpURLConnection.setConnectTimeout(1000 * 5);
-                httpURLConnection.setReadTimeout(1000 * 5);
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.connect();
+                OkHttpClient client1 =new OkHttpClient();
+                FormBody formBody=new FormBody.Builder()
+                        .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                        .add("topic","fishtank")
+                        .add("type","3")
+                        .add("msg","on")
+                        .build();
+                Request request1=new Request.Builder()
+                        .url("https://apis.bemfa.com/va/postmsg")
+                        .post(formBody)
+                        .build();
 
-                final StringBuilder buffer = new StringBuilder();
-                int code = httpURLConnection.getResponseCode();
-                if (code == 200)
-                {
-                    httpURLConnection.disconnect();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                    String line = null;
-                    while ((line = bufferedReader.readLine()) != null)
-                    {
-                        buffer.append(line);
-                    }
-                    runOnUiThread(() -> {
+                Response response1= client1.newCall(request1).execute();
+                //得到返回数据
+                String data1= response1.body().string();
+                //将返回数据添加到ui页面上
+                //Ttemp.setText(data1);
+                //post方式结束
 
-                        // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                    });
-                }
-                httpURLConnection.disconnect();
 
             } catch (Exception e)
             {
@@ -166,35 +203,26 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         }else{
 
 
-            String registerUrl = "http://"+ip+"/control?HOT=1";
             try
             {
-                URL url = new URL(registerUrl);
-                final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("GET");
-                httpURLConnection.setConnectTimeout(1000 * 5);
-                httpURLConnection.setReadTimeout(1000 * 5);
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.connect();
+                OkHttpClient client1 =new OkHttpClient();
+                FormBody formBody=new FormBody.Builder()
+                        .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                        .add("topic","fishtank")
+                        .add("type","3")
+                        .add("msg","off")
+                        .build();
+                Request request1=new Request.Builder()
+                        .url("https://apis.bemfa.com/va/postmsg")
+                        .post(formBody)
+                        .build();
 
-                final StringBuilder buffer = new StringBuilder();
-                int code = httpURLConnection.getResponseCode();
-                if (code == 200)
-                {
-                    httpURLConnection.disconnect();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                    String line = null;
-                    while ((line = bufferedReader.readLine()) != null)
-                    {
-                        buffer.append(line);
-                    }
-                    runOnUiThread(() -> {
-
-                        // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                    });
-                }
-                httpURLConnection.disconnect();
+                Response response1= client1.newCall(request1).execute();
+                //得到返回数据
+                String data1= response1.body().string();
+                //将返回数据添加到ui页面上
+              //  Ttemp.setText(data1);
+                //post方式结束
 
             } catch (Exception e)
             {
@@ -209,35 +237,29 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
     private void get1() {
 
 
-        String registerUrl = "http://"+ip+"/control?HOT=1";
         try
         {
-            URL url = new URL(registerUrl);
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(1000 * 5);
-            httpURLConnection.setReadTimeout(1000 * 5);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
+            OkHttpClient client1 =new OkHttpClient();
+            FormBody formBody=new FormBody.Builder()
+                    .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                    .add("topic","fishtank")
+                    .add("type","3")
+                    .add("msg","ok")
+                    .build();
+            Request request1=new Request.Builder()
+                    .url("https://apis.bemfa.com/va/postmsg")
+                    .post(formBody)
+                    .build();
 
-            final StringBuilder buffer = new StringBuilder();
-            int code = httpURLConnection.getResponseCode();
-            if (code == 200)
-            {
-                httpURLConnection.disconnect();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String line = null;
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    buffer.append(line);
-                }
-                runOnUiThread(() -> {
+            Response response1= client1.newCall(request1).execute();
+            //得到返回数据
+            String data1= response1.body().string();
+            //将返回数据添加到ui页面上
+            //Ttemp.setText(data1);
+            //post方式结束
 
-                    // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                });
-            }
-            httpURLConnection.disconnect();
+            Log.d("respond:",data1);
+            //post方式结束
 
         } catch (Exception e)
         {
@@ -248,35 +270,30 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
     private void MOTOR1() {
 
 
-        String registerUrl = "http://"+ip+"/control?MOTOR1=1";
+
         try
         {
-            URL url = new URL(registerUrl);
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(1000 * 5);
-            httpURLConnection.setReadTimeout(1000 * 5);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
+            OkHttpClient client1 =new OkHttpClient();
+            FormBody formBody=new FormBody.Builder()
+                    .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                    .add("topic","fishtank")
+                    .add("type","3")
+                    .add("msg","ok")
+                    .build();
+            Request request1=new Request.Builder()
+                    .url("https://apis.bemfa.com/va/postmsg")
+                    .post(formBody)
+                    .build();
 
-            final StringBuilder buffer = new StringBuilder();
-            int code = httpURLConnection.getResponseCode();
-            if (code == 200)
-            {
-                httpURLConnection.disconnect();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String line = null;
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    buffer.append(line);
-                }
-                runOnUiThread(() -> {
+            Response response1= client1.newCall(request1).execute();
+            //得到返回数据
+            String data1= response1.body().string();
+            //将返回数据添加到ui页面上
+            //Ttemp.setText(data1);
+            //post方式结束
 
-                    // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                });
-            }
-            httpURLConnection.disconnect();
+            Ttemp.setText(data1);
+            //post方式结束
 
         } catch (Exception e)
         {
@@ -287,35 +304,28 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
     private void get2() {
 
 
-        String registerUrl = "http://"+ip+"/control?MOTOR2=0";
+
         try
         {
-            URL url = new URL(registerUrl);
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(1000 * 5);
-            httpURLConnection.setReadTimeout(1000 * 5);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
+            OkHttpClient client1 =new OkHttpClient();
+            FormBody formBody=new FormBody.Builder()
+                    .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                    .add("topic","fishtank")
+                    .add("type","3")
+                    .add("msg","ok")
+                    .build();
+            Request request1=new Request.Builder()
+                    .url("https://apis.bemfa.com/va/postmsg")
+                    .post(formBody)
+                    .build();
 
-            final StringBuilder buffer = new StringBuilder();
-            int code = httpURLConnection.getResponseCode();
-            if (code == 200)
-            {
-                httpURLConnection.disconnect();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String line = null;
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    buffer.append(line);
-                }
-                runOnUiThread(() -> {
+            Response response1= client1.newCall(request1).execute();
+            //得到返回数据
+            String data1= response1.body().string();
+            //将返回数据添加到ui页面上
+            //Ttemp.setText(data1);
+            //post方式结束
 
-                    // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                });
-            }
-            httpURLConnection.disconnect();
 
         } catch (Exception e)
         {
@@ -325,35 +335,28 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
     @SuppressLint("SetTextI18n")
     private void MOTOR2() {
 
-        String registerUrl = "http://"+ip+"/control?MOTOR2=1";
+
         try
         {
-            URL url = new URL(registerUrl);
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(1000 * 5);
-            httpURLConnection.setReadTimeout(1000 * 5);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
+            OkHttpClient client1 =new OkHttpClient();
+            FormBody formBody=new FormBody.Builder()
+                    .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                    .add("topic","fishtank")
+                    .add("type","3")
+                    .add("msg","ok")
+                    .build();
+            Request request1=new Request.Builder()
+                    .url("https://apis.bemfa.com/va/postmsg")
+                    .post(formBody)
+                    .build();
 
-            final StringBuilder buffer = new StringBuilder();
-            int code = httpURLConnection.getResponseCode();
-            if (code == 200)
-            {
-                httpURLConnection.disconnect();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String line = null;
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    buffer.append(line);
-                }
-                runOnUiThread(() -> {
+            Response response1= client1.newCall(request1).execute();
+            //得到返回数据
+            String data1= response1.body().string();
+            //将返回数据添加到ui页面上
+            //Ttemp.setText(data1);
+            //post方式结束
 
-                    // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                });
-            }
-            httpURLConnection.disconnect();
 
         } catch (Exception e)
         {
@@ -361,78 +364,33 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private void back() {
 
-
-        String registerUrl = "http://"+ip+"/control?back=1";
-        try
-        {
-            URL url = new URL(registerUrl);
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(1000 * 5);
-            httpURLConnection.setReadTimeout(1000 * 5);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
-
-            final StringBuilder buffer = new StringBuilder();
-            int code = httpURLConnection.getResponseCode();
-            if (code == 200)
-            {
-                httpURLConnection.disconnect();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String line = null;
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    buffer.append(line);
-                }
-                runOnUiThread(() -> {
-
-                    // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                });
-            }
-            httpURLConnection.disconnect();
-
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
     @SuppressLint("SetTextI18n")
     private void send() {
 
 
-        String registerUrl = "http://"+ip+"/control?back=0";
+
         try
         {
-            URL url = new URL(registerUrl);
-            final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setConnectTimeout(1000 * 5);
-            httpURLConnection.setReadTimeout(1000 * 5);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
+            OkHttpClient client1 =new OkHttpClient();
+            FormBody formBody=new FormBody.Builder()
+                    .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                    .add("topic","fishtank")
+                    .add("type","3")
+                    .add("msg","ok")
+                    .build();
+            Request request1=new Request.Builder()
+                    .url("https://apis.bemfa.com/va/postmsg")
+                    .post(formBody)
+                    .build();
 
-            final StringBuilder buffer = new StringBuilder();
-            int code = httpURLConnection.getResponseCode();
-            if (code == 200)
-            {
-                httpURLConnection.disconnect();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String line = null;
-                while ((line = bufferedReader.readLine()) != null)
-                {
-                    buffer.append(line);
-                }
-                runOnUiThread(() -> {
+            Response response1= client1.newCall(request1).execute();
+            //得到返回数据
+            String data1= response1.body().string();
+            //将返回数据添加到ui页面上
+            //Ttemp.setText(data1);
+            //post方式结束
 
-                    // Toast.makeText(MainActivity.this, buffer.toString(), Toast.LENGTH_SHORT).show();
-                });
-            }
-            httpURLConnection.disconnect();
 
         } catch (Exception e)
         {

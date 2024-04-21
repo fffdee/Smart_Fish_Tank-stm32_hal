@@ -11,7 +11,8 @@
 #include <cstring>
 #include "function.h"
 extern ADC_HandleTypeDef hadc;
-
+TIM_HandleTypeDef htim2;
+static void MX_TIM2_Init(void);
 static void SystemClock_Config(void);
 extern UART_HandleTypeDef huart1;
 unsigned char check_ds18b20; 
@@ -146,7 +147,7 @@ int main(void)
 
   HAL_Init();
 
-
+	MX_TIM2_Init();
   SystemClock_Config();
 	UARST1_Init();
 	NVIC_Init();
@@ -172,7 +173,7 @@ int main(void)
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&rcData , 1);   //再开启接收中断
 	OLED_Clear();
 	Stata_Unit_Init();
-	
+	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
   while (1)
   {
 
@@ -220,7 +221,7 @@ int main(void)
                             current_operation_index=table[func_index].current_operation;
 
                             (*current_operation_index)();
-														
+														 __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,250); 
 														State_update(state_unit);
 													  logic_handle(state_unit);
 //		if(LED_FLAG==1){
@@ -320,6 +321,53 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&rcData, 1);   //再开启接收中断
 }
 
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+    TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 0;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 4294967295;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_OC_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_TIMING;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+  HAL_TIM_MspPostInit(&htim2);
+
+	__HAL_RCC_GPIOF_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+
+
+}
 
 void SystemClock_Config(void)
 {
@@ -365,10 +413,8 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI14|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.HSI14State = RCC_HSI14_ON;
-  RCC_OscInitStruct.HSI14CalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL6;
