@@ -52,7 +52,23 @@ void sendtoTCPServer(String p);
 void turnOnLed();
 void turnOffLed();
 
-
+typedef struct{
+  
+    unsigned char *wifi_ip;
+    unsigned char MotorFlag1;
+    unsigned char MotorFlag2;
+    unsigned char MotorFlag3;
+    unsigned char waterFlagUP;
+    unsigned char waterFlagDOWN;
+    unsigned char hotFlag;
+    unsigned char autoMode;
+    short temp;
+    short ptemp;
+    uint32_t zhuod;
+    uint32_t pzhuod;
+     
+    
+}Fishtank;
 
 /*
   *发送数据到TCP服务器
