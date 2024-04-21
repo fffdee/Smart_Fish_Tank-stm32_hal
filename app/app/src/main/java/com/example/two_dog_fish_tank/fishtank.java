@@ -33,6 +33,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static java.sql.Types.NULL;
+
 public class fishtank extends AppCompatActivity implements View.OnClickListener{
     private Handler handler;
     private final int MOTOR1 = 1;
@@ -423,8 +425,26 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
     @SuppressLint("SetTextI18n")
     private void send() {
 
-        if(prevalModeFlag==1) Pzhuod = Integer.parseInt(String.valueOf(editText.getText()));
-        else PtempVal = Integer.parseInt(String.valueOf(editText.getText()));
+        if(prevalModeFlag==1){
+            if(editText.getText().toString().equals("")) {
+                Toast.makeText(this, "浊值为空", Toast.LENGTH_SHORT).show();
+            }else {
+
+                Pzhuod = Integer.parseInt(String.valueOf(editText.getText()));
+            }
+        }
+        else {
+            if(editText.getText().toString().equals("")) {
+                Toast.makeText(this, "温度值为空", Toast.LENGTH_SHORT).show();
+            }else{
+                if (Integer.parseInt(String.valueOf(editText.getText())) > 40
+                        || Integer.parseInt(String.valueOf(editText.getText())) < 10
+
+                )
+                    Toast.makeText(this, "温度值不合适", Toast.LENGTH_SHORT).show();
+                else PtempVal = Integer.parseInt(String.valueOf(editText.getText()));
+            }
+        }
 
         try
         {
