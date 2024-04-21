@@ -1,13 +1,4 @@
-/*
- * 巴法云例程
- * 2022-06-26
- * QQ交流群：824273231
- * 官网https://bemfa.com 
- * app 远程控制教程：https://bemfa.blog.csdn.net/article/details/98478379
- * 微信小程序远程控制教程：https://bemfa.blog.csdn.net/article/details/107019002
- * esp8266-01/01s和其他版本一样，只是需要控制的引脚口不同，修改引脚口为0口就行，app和微信小程序是通用的，修改自己的uid和主题名称就行。
- * 本程序可同时支持小爱、天猫、小度、app、小程序、Google home 、amazon alexa、api接口、巴法控制台等同时控制。
- */
+
 #include <ESP8266WiFi.h>
 
 
@@ -148,12 +139,6 @@ void doTCPClientTick(){
 
       if(millis() - preHeartTick >= upDataTime){//上传数据
       preHeartTick = millis();
-
-      /*****************获取DHT11 温湿度*****************/
-      // read without samples.
-      byte temperature = 0;
-      byte humidity = 0;
-   
       
       /*********************数据上传*******************/
       String upstr = "";
@@ -161,6 +146,7 @@ void doTCPClientTick(){
       sendtoTCPServer(upstr);
       upstr = "";
     }
+    
   if((TcpClient_Buff.length() >= 1) && (millis() - TcpClient_preTick>=200))
   {//data ready
     TCPclient.flush();
