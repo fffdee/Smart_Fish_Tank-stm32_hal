@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -32,7 +33,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class fishtank extends AppCompatActivity implements View.OnTouchListener,View.OnClickListener{
+public class fishtank extends AppCompatActivity implements View.OnClickListener{
     private Handler handler;
     private final int MOTOR1 = 1;
     private final int MOTOR2 = 2;
@@ -41,18 +42,19 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
     private final int GET2 = 6;
     private final int HOT = 9;
 
-    private ToggleButton toggleButton,T1;
+    private ToggleButton toggleButton,PrevalMode,Motor1,Motor2;
 
     private EditText editText;
     private TextView Ttemp,Tptemp,Tzhuod,Tpzhuod,motor1,motor2,hotflag,waterflag;
+    int tempVal,PtempVal,zhuod,Pzhuod,motor1Flag,motor2Flag,hotFlag,waterFlag,prevalModeFlag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fishtank);
-        findViewById(R.id.GO).setOnTouchListener(this);
 
-        findViewById(R.id.MOTOR1).setOnTouchListener(this);
-        findViewById(R.id.MOTOR2).setOnTouchListener(this);
+
+        findViewById(R.id.MOTOR1).setOnClickListener(this);
+        findViewById(R.id.M2).setOnClickListener(this);
         findViewById(R.id.HOT).setOnClickListener(this);
 
         toggleButton = findViewById(R.id.HOT);
@@ -66,10 +68,13 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         waterflag = findViewById(R.id.waterFlag);
 
         editText = findViewById(R.id.Emode);
+        Motor1 = findViewById(R.id.MOTOR1);
+        Motor2 = findViewById(R.id.M2);
+        PrevalMode = findViewById(R.id.SetMode);
 
+        findViewById(R.id.Send).setOnClickListener(this);
         findViewById(R.id.SetMode).setOnClickListener(this);
-        findViewById(R.id.MOTOR1).setOnTouchListener(this);
-        findViewById(R.id.MOTOR2).setOnTouchListener(this);
+
 
 
         HandlerThread handlerThread = new HandlerThread("Http");
@@ -77,7 +82,7 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
 
 
         handler = new HttpHandler(handlerThread.getLooper());
-        Thread thread = new Thread(() -> {
+        @SuppressLint("SetTextI18n") Thread thread = new Thread(() -> {
             // 循环执行
             while (true) {
                 // 执行某个任务
@@ -91,17 +96,53 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
                     Log.d("update", data);
                     //post方式结束
                     JSONObject jsonObject = new JSONObject(data);
-
-                    String msg = jsonObject.optString("data");
-                    String msg2 = msg.replace("["," ");
-                    msg = msg2.replace("]"," ");
-                    Log.d("msg",msg);
-                    JSONObject msg_data = new JSONObject(msg);
-
-                    String msg_1 = msg_data.optString("msg");
-
-                    Log.d("msg",msg_1);
-
+                    //获取的消息处理
+                    String rev_msg = jsonObject.optString("data");
+                    String msg2 = rev_msg.replace("["," ");
+                    rev_msg = msg2.replace("]"," ");
+                    Log.d("msg",rev_msg);
+                    JSONObject msg_data = new JSONObject(rev_msg);
+                    String msg_json = msg_data.optString("msg");
+                    Log.d("msg", msg_json);
+                    //处理msg的json信息
+                    JSONObject json_data = new JSONObject(msg_json);
+                    tempVal =  json_data.optInt("temp");
+                    PtempVal =  json_data.optInt("Ptemp");
+                    zhuod =  json_data.optInt("zhuod");
+                    Pzhuod =  json_data.optInt("Pzhuod");
+                    motor1Flag =  json_data.optInt("motor1");
+                    motor2Flag =  json_data.optInt("motor2");
+                    hotFlag =  json_data.optInt("hot");
+                    waterFlag =  json_data.optInt("waterFlag");
+                    Ttemp.setText("当前温度："+tempVal+"°");
+                    Tptemp.setText("预设温度："+ PtempVal+"°");
+                    Tzhuod.setText("当前浊度："+zhuod);
+                    Tpzhuod.setText("预设浊度："+Pzhuod);
+                    if(motor1Flag==0) {
+                        motor1.setText("电机1：关闭");
+                        Motor1.setChecked(true);
+                    } else{
+                        motor1.setText("电机1：启动");
+                        Motor1.setChecked(false);
+                    }
+                    if(motor2Flag==0) {
+                        motor2.setText("电机2：关闭");
+                        Motor2.setChecked(true);
+                    }
+                    else {
+                        motor2.setText("电机2：启动");
+                        Motor2.setChecked(false);
+                    }
+                    if(hotFlag==0) {
+                        hotflag.setText("加热：关闭");
+                        toggleButton.setChecked(false);
+                    }
+                    else {
+                        hotflag.setText("加热：打开");
+                        toggleButton.setChecked(true);
+                    }
+                    if(waterFlag==0) waterflag.setText("水位：未满");
+                    else waterflag.setText("水位：达标");
 
                 } catch (Exception e)
                 {
@@ -109,7 +150,7 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
                 }
                 // 延迟10秒
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -125,8 +166,22 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         if(v.getId()==R.id.HOT)
             handler.sendEmptyMessage(HOT);
 
-        else if(v.getId()==R.id.SetMode)
+        else if(v.getId()==R.id.Send)
             handler.sendEmptyMessage(SEND);
+
+        else if(v.getId()==R.id.SetMode) {
+            if(PrevalMode.isChecked()) prevalModeFlag=1;
+            else prevalModeFlag = 0;
+
+        }
+        else if(v.getId()==R.id.MOTOR1) {
+            handler.sendEmptyMessage(MOTOR1);
+
+        }
+        else if(v.getId()==R.id.M2) {
+            handler.sendEmptyMessage(MOTOR2);
+
+        }
 
     }
 
@@ -143,13 +198,6 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
                     break;
                 case MOTOR2:
                     MOTOR2();
-                    break;
-
-                case GET1:
-                    get1();
-                    break;
-                case GET2:
-                    get2();
                     break;
 
                 case SEND:
@@ -172,7 +220,7 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
     private void HOT(){
         if(toggleButton.isChecked()){
 
-
+            hotFlag = 1;
             try
             {
                 OkHttpClient client1 =new OkHttpClient();
@@ -180,7 +228,8 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
                         .add("uid","c03b0385d6468c31245bd9f86236fc4d")
                         .add("topic","fishtank")
                         .add("type","3")
-                        .add("msg","on")
+                        .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
                         .build();
                 Request request1=new Request.Builder()
                         .url("https://apis.bemfa.com/va/postmsg")
@@ -202,7 +251,7 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
 
         }else{
 
-
+            hotFlag = 0;
             try
             {
                 OkHttpClient client1 =new OkHttpClient();
@@ -210,7 +259,8 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
                         .add("uid","c03b0385d6468c31245bd9f86236fc4d")
                         .add("topic","fishtank")
                         .add("type","3")
-                        .add("msg","off")
+                        .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
                         .build();
                 Request request1=new Request.Builder()
                         .url("https://apis.bemfa.com/va/postmsg")
@@ -232,143 +282,149 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
         }
     }
 
-
     @SuppressLint("SetTextI18n")
-    private void get1() {
+    private void MOTOR2() {
+        if(Motor2.isChecked()){
+
+            motor2Flag = 0;
+            try
+            {
+                OkHttpClient client1 =new OkHttpClient();
+                FormBody formBody=new FormBody.Builder()
+                        .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                        .add("topic","fishtank")
+                        .add("type","3")
+                        .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                        .build();
+                Request request1=new Request.Builder()
+                        .url("https://apis.bemfa.com/va/postmsg")
+                        .post(formBody)
+                        .build();
+
+                Response response1= client1.newCall(request1).execute();
+                //得到返回数据
+                String data1= response1.body().string();
+                //将返回数据添加到ui页面上
+                //Ttemp.setText(data1);
+                //post方式结束
 
 
-        try
-        {
-            OkHttpClient client1 =new OkHttpClient();
-            FormBody formBody=new FormBody.Builder()
-                    .add("uid","c03b0385d6468c31245bd9f86236fc4d")
-                    .add("topic","fishtank")
-                    .add("type","3")
-                    .add("msg","ok")
-                    .build();
-            Request request1=new Request.Builder()
-                    .url("https://apis.bemfa.com/va/postmsg")
-                    .post(formBody)
-                    .build();
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
 
-            Response response1= client1.newCall(request1).execute();
-            //得到返回数据
-            String data1= response1.body().string();
-            //将返回数据添加到ui页面上
-            //Ttemp.setText(data1);
-            //post方式结束
+        }else{
+            motor2Flag = 1;
 
-            Log.d("respond:",data1);
-            //post方式结束
+            try
+            {
+                OkHttpClient client1 =new OkHttpClient();
+                FormBody formBody=new FormBody.Builder()
+                        .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                        .add("topic","fishtank")
+                        .add("type","3")
+                        .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                        .build();
+                Request request1=new Request.Builder()
+                        .url("https://apis.bemfa.com/va/postmsg")
+                        .post(formBody)
+                        .build();
 
-        } catch (Exception e)
-        {
-            e.printStackTrace();
+                Response response1= client1.newCall(request1).execute();
+                //得到返回数据
+                String data1= response1.body().string();
+                //将返回数据添加到ui页面上
+                //  Ttemp.setText(data1);
+                //post方式结束
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
         }
     }
+
+
     @SuppressLint("SetTextI18n")
     private void MOTOR1() {
 
 
 
-        try
-        {
-            OkHttpClient client1 =new OkHttpClient();
-            FormBody formBody=new FormBody.Builder()
-                    .add("uid","c03b0385d6468c31245bd9f86236fc4d")
-                    .add("topic","fishtank")
-                    .add("type","3")
-                    .add("msg","ok")
-                    .build();
-            Request request1=new Request.Builder()
-                    .url("https://apis.bemfa.com/va/postmsg")
-                    .post(formBody)
-                    .build();
+        if(Motor1.isChecked()){
 
-            Response response1= client1.newCall(request1).execute();
-            //得到返回数据
-            String data1= response1.body().string();
-            //将返回数据添加到ui页面上
-            //Ttemp.setText(data1);
-            //post方式结束
+            motor1Flag = 0;
+            try
+            {
+                OkHttpClient client1 =new OkHttpClient();
+                FormBody formBody=new FormBody.Builder()
+                        .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                        .add("topic","fishtank")
+                        .add("type","3")
+                        .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                        .build();
+                Request request1=new Request.Builder()
+                        .url("https://apis.bemfa.com/va/postmsg")
+                        .post(formBody)
+                        .build();
 
-            Ttemp.setText(data1);
-            //post方式结束
+                Response response1= client1.newCall(request1).execute();
+                //得到返回数据
+                String data1= response1.body().string();
+                //将返回数据添加到ui页面上
+                //Ttemp.setText(data1);
+                //post方式结束
 
-        } catch (Exception e)
-        {
-            e.printStackTrace();
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }else{
+
+            motor1Flag = 1;
+            try
+            {
+                OkHttpClient client1 =new OkHttpClient();
+                FormBody formBody=new FormBody.Builder()
+                        .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                        .add("topic","fishtank")
+                        .add("type","3")
+                        .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                        .build();
+                Request request1=new Request.Builder()
+                        .url("https://apis.bemfa.com/va/postmsg")
+                        .post(formBody)
+                        .build();
+
+                Response response1= client1.newCall(request1).execute();
+                //得到返回数据
+                String data1= response1.body().string();
+                //将返回数据添加到ui页面上
+                //  Ttemp.setText(data1);
+                //post方式结束
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
         }
     }
-    @SuppressLint("SetTextI18n")
-    private void get2() {
 
-
-
-        try
-        {
-            OkHttpClient client1 =new OkHttpClient();
-            FormBody formBody=new FormBody.Builder()
-                    .add("uid","c03b0385d6468c31245bd9f86236fc4d")
-                    .add("topic","fishtank")
-                    .add("type","3")
-                    .add("msg","ok")
-                    .build();
-            Request request1=new Request.Builder()
-                    .url("https://apis.bemfa.com/va/postmsg")
-                    .post(formBody)
-                    .build();
-
-            Response response1= client1.newCall(request1).execute();
-            //得到返回数据
-            String data1= response1.body().string();
-            //将返回数据添加到ui页面上
-            //Ttemp.setText(data1);
-            //post方式结束
-
-
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-    @SuppressLint("SetTextI18n")
-    private void MOTOR2() {
-
-
-        try
-        {
-            OkHttpClient client1 =new OkHttpClient();
-            FormBody formBody=new FormBody.Builder()
-                    .add("uid","c03b0385d6468c31245bd9f86236fc4d")
-                    .add("topic","fishtank")
-                    .add("type","3")
-                    .add("msg","ok")
-                    .build();
-            Request request1=new Request.Builder()
-                    .url("https://apis.bemfa.com/va/postmsg")
-                    .post(formBody)
-                    .build();
-
-            Response response1= client1.newCall(request1).execute();
-            //得到返回数据
-            String data1= response1.body().string();
-            //将返回数据添加到ui页面上
-            //Ttemp.setText(data1);
-            //post方式结束
-
-
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
 
 
     @SuppressLint("SetTextI18n")
     private void send() {
 
-
+        if(prevalModeFlag==1) Pzhuod = Integer.parseInt(String.valueOf(editText.getText()));
+        else PtempVal = Integer.parseInt(String.valueOf(editText.getText()));
 
         try
         {
@@ -377,7 +433,8 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
                     .add("uid","c03b0385d6468c31245bd9f86236fc4d")
                     .add("topic","fishtank")
                     .add("type","3")
-                    .add("msg","ok")
+                    .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
+                            ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
                     .build();
             Request request1=new Request.Builder()
                     .url("https://apis.bemfa.com/va/postmsg")
@@ -399,31 +456,4 @@ public class fishtank extends AppCompatActivity implements View.OnTouchListener,
     }
 
 
-    @SuppressLint({"NonConstantResourceId", "ClickableViewAccessibility"})
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-
-        switch (v.getId()) {
-            case R.id.MOTOR2:
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    handler.sendEmptyMessage(MOTOR2);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    handler.sendEmptyMessage(GET2);
-                }
-                break;
-            case R.id.MOTOR1:
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    handler.sendEmptyMessage(MOTOR1);
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    handler.sendEmptyMessage(GET1);
-                }
-                break;
-
-
-            default:
-                break;
-
-        }
-        return false;
-    }
 }

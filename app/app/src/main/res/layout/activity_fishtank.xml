@@ -217,8 +217,9 @@
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:gravity="center">
-            <Button
-                android:text="电机1"
+            <ToggleButton
+                android:textOn="启动电机1"
+                android:textOff="关闭电机1"
                 android:textSize="25sp"
                 android:id="@+id/MOTOR1"
                 android:layout_width="wrap_content"
@@ -237,13 +238,15 @@
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/MOTOR2"
+            <ToggleButton
+                android:textOn="启动电机2"
+                android:textOff="关闭电机2"
+                android:id="@+id/M2"
                 android:layout_width="wrap_content"
                 android:layout_height="80sp"
                 android:layout_marginLeft="25sp"
                 android:background="@drawable/button3"
-                android:text="电机2"
+
                 android:textSize="25sp" />
 
 
@@ -297,10 +300,11 @@
 
                 android:background="@color/white"/>
             <Button
+
                 android:layout_marginTop="20sp"
                 android:text="发送数据"
                 android:textSize="25sp"
-                android:id="@+id/GO"
+                android:id="@+id/Send"
                 android:layout_margin="10sp"
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
