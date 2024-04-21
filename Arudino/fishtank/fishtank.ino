@@ -1,6 +1,6 @@
 
 #include <ESP8266WiFi.h>
-
+#include <ArduinoJson.h>
 
 
 //巴法云服务器地址默认即可
@@ -17,7 +17,7 @@ String TOPIC =   "fishtank";         //主题名字，可在控制台新建
 const int LED_Pin = 2;              //单片机LED引脚值，GPIO0引脚
 
 //**************************************************//
-
+StaticJsonDocument<200> jsonBuffer2;
 
 
 //最大字节数
@@ -70,6 +70,17 @@ typedef struct{
     
 }Fishtank;
 
+Fishtank fishtank_data;
+
+unsigned char MotorFlag1;
+unsigned char MotorFlag2;
+unsigned char MotorFlag3;
+unsigned char hotFlag;
+    
+unsigned char temp;
+unsigned char ptemp;
+uint32_t zhuod;
+uint32_t pzhuod;
 /*
   *发送数据到TCP服务器
  */
@@ -153,15 +164,15 @@ void doTCPClientTick(){
     }
   }
 
-      if(millis() - preHeartTick >= upDataTime){//上传数据
-      preHeartTick = millis();
-      
-      /*********************数据上传*******************/
-      String upstr = "";
-      upstr = "cmd=2&uid="+UID+"&topic="+TOPIC+"&msg=#0#1\r\n";
-      sendtoTCPServer(upstr);
-      upstr = "";
-    }
+//      if(millis() - preHeartTick >= upDataTime){//上传数据
+//      preHeartTick = millis();
+//      
+//      /*********************数据上传*******************/
+//      String upstr = "";
+//      upstr = "cmd=2&uid="+UID+"&topic="+TOPIC+"&msg=#0#1\r\n";
+//      sendtoTCPServer(upstr);
+//      upstr = "";
+//    }
     
   if((TcpClient_Buff.length() >= 1) && (millis() - TcpClient_preTick>=200))
   {//data ready
@@ -181,12 +192,23 @@ void doTCPClientTick(){
           Serial.println(getTopic); //打印截取到的主题值
           Serial.print("msg:--------");
           Serial.println(getMsg);   //打印截取到的消息值
+          DeserializationError error = deserializeJson(jsonBuffer2, getMsg);
+         if (error) 
+        {
+            Serial.print(F("deserializeJson() failed: "));
+            Serial.println(error.f_str());
+            return;
+        }
+        Serial.println(String(jsonBuffer2["temp"]));
+        Serial.println(String(jsonBuffer2["Ptemp"]));
+        Serial.println(String(jsonBuffer2["zhuod"]));
+        Serial.println(String(jsonBuffer2["Pzhuod"]));
+        Serial.println(String(jsonBuffer2["motor1"]));
+        Serial.println(String(jsonBuffer2["motor2"]));
+        Serial.println(String(jsonBuffer2["hot"]));
+        Serial.println(String(jsonBuffer2["waterFlag"]));
    }
-   if(getMsg  == "on"){       //如果是消息==打开
-     turnOnLed();
-   }else if(getMsg == "off"){ //如果是消息==关闭
-      turnOffLed();
-    }
+
 
    TcpClient_Buff="";
    TcpClient_BuffIndex = 0;
@@ -236,16 +258,6 @@ void doWiFiTick(){
       startTCPClient();
     }
   }
-}
-//打开灯泡
-void turnOnLed(){
-  Serial.println("Turn ON");
-  digitalWrite(LED_Pin,LOW);
-}
-//关闭灯泡
-void turnOffLed(){
-  Serial.println("Turn OFF");
-    digitalWrite(LED_Pin,HIGH);
 }
 
 

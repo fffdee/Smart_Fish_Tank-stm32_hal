@@ -225,6 +225,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="80sp"
                 android:layout_marginRight="30sp"
+                android:textColor="@color/black"
                 android:background="@drawable/button3"/>
 
             <ToggleButton
@@ -246,7 +247,7 @@
                 android:layout_height="80sp"
                 android:layout_marginLeft="25sp"
                 android:background="@drawable/button3"
-
+                android:textColor="@color/black"
                 android:textSize="25sp" />
 
 
