@@ -17,7 +17,7 @@ String TOPIC =   "fishtank";         //主题名字，可在控制台新建
 const int LED_Pin = 2;              //单片机LED引脚值，GPIO0引脚
 
 //**************************************************//
-StaticJsonDocument<300> jsonBuffer2;
+StaticJsonDocument<500> jsonBuffer2;
 
 
 //最大字节数
@@ -37,7 +37,8 @@ unsigned long preTCPStartTick = 0;//连接
 bool preTCPConnected = false;
 
 
-
+uint8_t rxdata[30] = {0};
+uint8_t count = 0;
 
 
 //相关函数初始化
@@ -66,6 +67,7 @@ typedef struct{
     uint8_t ptemp;
     uint32_t zhuod;
     uint32_t pzhuod;
+    uint32_t rxbug; 
     uint32_t rxFlag; 
     
 }Fishtank;
@@ -164,15 +166,16 @@ void doTCPClientTick(){
     }
   }
 
-//      if(millis() - preHeartTick >= upDataTime){//上传数据
-//      preHeartTick = millis();
-//      
-//      /*********************数据上传*******************/
-//      String upstr = "";
-//      upstr = "cmd=2&uid="+UID+"&topic="+TOPIC+"&msg=#0#1\r\n";
-//      sendtoTCPServer(upstr);
-//      upstr = "";
-//    }
+      if(millis() - preHeartTick >= upDataTime){//上传数据
+      preHeartTick = millis();
+      
+      /*********************数据上传*******************/
+      String upstr = "";
+      upstr = "cmd=2&uid="+UID+"&topic="+TOPIC+"&msg={\"temp\":\""+fishtank_data.temp+"\",\"Ptemp\":\""+fishtank_data.ptemp+"\",\"zhuod\":\""+fishtank_data.zhuod+"\",\"Pzhuod\":\""+fishtank_data.pzhuod+"\",\"motor1\":\""+fishtank_data.motorFlag1+
+                                "\",\"motor2\":\""+fishtank_data.motorFlag2+"\",\"hot\":\""+fishtank_data.hotFlag+"\",\"waterFlagDown\":\""+fishtank_data.waterFlagDOWN+"\",\"waterFlagUp\":\""+fishtank_data.waterFlagUP+"\"}\r\n";
+      sendtoTCPServer(upstr);
+      upstr = "";
+    }
     
   if((TcpClient_Buff.length() >= 1) && (millis() - TcpClient_preTick>=200))
   {//data ready
@@ -220,7 +223,11 @@ void doTCPClientTick(){
         
         digitalWrite(LED_Pin,LOW);
         byte b[sizeof(fishtank_data)];
-
+        if(((fishtank_data.pzhuod/128)%2)){
+            fishtank_data.rxbug = 1;
+        }else {
+            fishtank_data.rxbug = 0;
+        }
         fishtank_data.rxFlag = 0xFF000000;
         memcpy(b,&fishtank_data,sizeof(Fishtank));
         Serial.write(b, sizeof(Fishtank));
@@ -286,20 +293,24 @@ void setup() {
   pinMode(LED_Pin,OUTPUT);
   digitalWrite(LED_Pin,HIGH);
  // Serial.println("Beginning...");
+
 }
 
 //循环
 void loop() {
   doWiFiTick();
   doTCPClientTick();
-   while( Serial.available()>0 ){
-    byte serialData = Serial.read();
-    index+=1;
-    rxdata[index-1] = serialData;
-    if(serialData = 0xFF){
+  while( Serial.available()>0 ){
+  byte serialData = Serial.read();
+ // while( Serial.available()>0 ) Serial.write(Serial.read());
+   // Serial.write(serialData);
+    
+    rxdata[count++] = serialData;
+    if(serialData == 0xFF){
       
-        mencpy(&fishtank,&rxdata,sizeof(fishtank));
-        index = 0
+        memcpy((uint8_t *)&fishtank_data,&rxdata,sizeof(Fishtank));
+        count = 0;
+        
       }
     }
    

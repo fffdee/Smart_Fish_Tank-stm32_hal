@@ -10,6 +10,7 @@
 #include "stm32f0xx.h"
 #include <cstring>
 #include "function.h"
+#define uchar unsigned char	 
 extern ADC_HandleTypeDef hadc;
 static void SystemClock_Config(void);
 extern UART_HandleTypeDef huart1;
@@ -30,7 +31,7 @@ extern unsigned int ExtZD;
 
 Fishtank fishtank;
 State_Unit state_unit;
-uint32_t int32_data[4] = {0};
+
 void Stata_Unit_Init(void)
 {
 		state_unit.wifi_ip = NULL;
@@ -55,7 +56,7 @@ uint8_t BEEP_FLAG = 0;
 
 uint8_t Uart1_Rx_Cnt = 0; //接收缓冲计数
 
-#define uchar unsigned char	  
+ 
 
 
 uchar func_index=0;	 
@@ -253,17 +254,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			Uart1_RxBuff[Uart1_Rx_Cnt-1]=rcData[0];
 			
 			if(rcData[0] == 0x7F){
-			 for(int i=0;i<Uart1_Rx_Cnt;i++)
-				printf("UART DataBuff[%d] = 0x%x\r\n",i,Uart1_RxBuff[i]);	
+//			 for(int i=0;i<Uart1_Rx_Cnt;i++)
+//				printf("UART DataBuff[%d] = 0x%x\r\n",i,Uart1_RxBuff[i]);	
 			memcpy((uint8_t *)&fishtank, &Uart1_RxBuff,Uart1_Rx_Cnt ); 	
 			state_unit.ptemp = fishtank.ptemp;
 			//printf("UART DataBuff[11] = 0x%x\r\n",fishtank.pzhuod);
-			int32_data[0] = Uart1_RxBuff[12];
-			int32_data[1] = Uart1_RxBuff[13];
-			int32_data[2] = Uart1_RxBuff[14];
-			int32_data[3] = Uart1_RxBuff[15];
-			//state_unit.pzhuod = int32_data[0]|int32_data[1]<<8|int32_data[2]<<16|int32_data[3]<<24;
-				state_unit.pzhuod = fishtank.pzhuod;
+			if(fishtank.rxbug==1)state_unit.pzhuod = fishtank.pzhuod+128;	
+			else state_unit.pzhuod = fishtank.pzhuod;
 			state_unit.MotorFlag1 = fishtank.motorFlag1;
 			state_unit.MotorFlag2 = fishtank.motorFlag2;
 			state_unit.hotFlag = fishtank.hotFlag;

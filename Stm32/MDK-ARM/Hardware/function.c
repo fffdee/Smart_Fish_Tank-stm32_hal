@@ -27,7 +27,10 @@ void updata()
 		fishtank.zhuod = state_unit.pzhuod;
 		fishtank.waterFlagDOWN = state_unit.waterFlagDOWN;
 		fishtank.waterFlagUP = state_unit.waterFlagUP;
-		fishtank.zhuod = state_unit.zhuod;
+		fishtank.motorFlag1 = state_unit.MotorFlag1;
+		fishtank.motorFlag2 = state_unit.MotorFlag2;
+		fishtank.hotFlag = state_unit.hotFlag;
+	
 		fishtank.rxFlag = 0xff;
 		HAL_UART_Transmit(&huart1, (uint8_t *)&fishtank,sizeof(Fishtank),0xFFFF);
 }
@@ -71,6 +74,7 @@ void fun1(void)
 		T=state_unit.temp%100;
 		OLED_ShowNum(24,6,state_unit.temp/10,2,16);
 		OLED_ShowNum(46,6,T,1,16);
+		state_unit.temp = state_unit.temp/10;
 	//	OLED_ShowString(8,2,Uart1_RxBuff,16);
 		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
 				SettingFlag =1;
