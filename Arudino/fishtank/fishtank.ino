@@ -17,7 +17,7 @@ String TOPIC =   "fishtank";         //主题名字，可在控制台新建
 const int LED_Pin = 2;              //单片机LED引脚值，GPIO0引脚
 
 //**************************************************//
-StaticJsonDocument<200> jsonBuffer2;
+StaticJsonDocument<300> jsonBuffer2;
 
 
 //最大字节数
@@ -35,6 +35,8 @@ unsigned long TcpClient_preTick = 0;
 unsigned long preHeartTick = 0;//心跳
 unsigned long preTCPStartTick = 0;//连接
 bool preTCPConnected = false;
+
+
 
 
 
@@ -57,13 +59,14 @@ typedef struct{
    // unsigned char *wifi_ip;
     uint8_t motorFlag1;
     uint8_t motorFlag2;
-    uint8_t waterFlag;
+    uint8_t waterFlagDOWN;
+    uint8_t waterFlagUP;
     uint8_t hotFlag;
     uint8_t temp;
     uint8_t ptemp;
     uint32_t zhuod;
     uint32_t pzhuod;
-     
+    uint32_t rxFlag; 
     
 }Fishtank;
 
@@ -212,18 +215,17 @@ void doTCPClientTick(){
         fishtank_data.motorFlag1 = jsonBuffer2["motor1"];
         fishtank_data.motorFlag2 = jsonBuffer2["motor2"];
         fishtank_data.hotFlag = jsonBuffer2["hot"];
-        fishtank_data.waterFlag = jsonBuffer2["waterFlag"];
+        fishtank_data.waterFlagDOWN = jsonBuffer2["waterFlagDOWN"];
+        fishtank_data.waterFlagUP = jsonBuffer2["waterFlagUP"];
+        
         digitalWrite(LED_Pin,LOW);
         byte b[sizeof(fishtank_data)];
-        if(fishtank_data.motorFlag1 == 1){
-             Serial.write("*");
-             digitalWrite(LED_Pin,HIGH);
-        }else{
-            Serial.write("+");
-            digitalWrite(LED_Pin,LOW);
-        } 
-       // memcpy(b,&fishtank_data,sizeof(Fishtank));
-       // Serial.write(b, sizeof(Fishtank));
+
+        fishtank_data.rxFlag = 0xFF000000;
+        memcpy(b,&fishtank_data,sizeof(Fishtank));
+        Serial.write(b, sizeof(Fishtank));
+        delay(200);
+        digitalWrite(LED_Pin,HIGH);
    }
 
 
@@ -290,4 +292,16 @@ void setup() {
 void loop() {
   doWiFiTick();
   doTCPClientTick();
+   while( Serial.available()>0 ){
+    byte serialData = Serial.read();
+    index+=1;
+    rxdata[index-1] = serialData;
+    if(serialData = 0xFF){
+      
+        mencpy(&fishtank,&rxdata,sizeof(fishtank));
+        index = 0
+      }
+    }
+   
+   
 }

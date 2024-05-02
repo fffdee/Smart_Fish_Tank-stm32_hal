@@ -19,7 +19,7 @@ int fputc(int ch, FILE *f)
  
 void UARST1_Init(void)
 {
-	  /* USER CODE BEGIN USART1_Init 0 */
+
 	  /* USER CODE BEGIN USART1_Init 0 */
 
   /* USER CODE END USART1_Init 0 */
@@ -48,9 +48,7 @@ void UARST1_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
-
 }
-
 void NVIC_Init(void)
 {
   /* USART1_IRQn interrupt configuration */

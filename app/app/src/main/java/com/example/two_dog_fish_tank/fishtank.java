@@ -48,7 +48,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
 
     private EditText editText;
     private TextView Ttemp,Tptemp,Tzhuod,Tpzhuod,motor1,motor2,hotflag,waterflag;
-    int tempVal,PtempVal,zhuod,Pzhuod,motor1Flag,motor2Flag,hotFlag,waterFlag,prevalModeFlag;
+    int tempVal,PtempVal,zhuod,Pzhuod,motor1Flag,motor2Flag,hotFlag,waterFlagDown,waterFlagUp,prevalModeFlag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +115,8 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                     motor1Flag =  json_data.optInt("motor1");
                     motor2Flag =  json_data.optInt("motor2");
                     hotFlag =  json_data.optInt("hot");
-                    waterFlag =  json_data.optInt("waterFlag");
+                    waterFlagDown =  json_data.optInt("waterFlagDown");
+                    waterFlagUp =  json_data.optInt("waterFlagUp");
                     Ttemp.setText("当前温度："+tempVal+"°");
                     Tptemp.setText("预设温度："+ PtempVal+"°");
                     Tzhuod.setText("当前浊度："+zhuod);
@@ -143,8 +144,9 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                         hotflag.setText("加热：打开");
                         toggleButton.setChecked(true);
                     }
-                    if(waterFlag==0) waterflag.setText("水位：未满");
-                    else waterflag.setText("水位：达标");
+                    if((waterFlagDown==0)&&(waterFlagUp==0)) waterflag.setText("水位：最低水位");
+                    else if((waterFlagDown==1)&&(waterFlagUp==0)) waterflag.setText("水位：抽水中");
+                    else if((waterFlagDown==1)&&(waterFlagUp==1)) waterflag.setText("水位：达标");
 
                 } catch (Exception e)
                 {
@@ -231,7 +233,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                         .add("topic","fishtank")
                         .add("type","3")
                         .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
-                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlagDown\":"+waterFlagDown+",\"waterFlagUp\":"+waterFlagUp+"}")
                         .build();
                 Request request1=new Request.Builder()
                         .url("https://apis.bemfa.com/va/postmsg")
@@ -262,7 +264,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                         .add("topic","fishtank")
                         .add("type","3")
                         .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
-                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlagDown\":"+waterFlagDown+",\"waterFlagUp\":"+waterFlagUp+"}")
                         .build();
                 Request request1=new Request.Builder()
                         .url("https://apis.bemfa.com/va/postmsg")
@@ -297,7 +299,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                         .add("topic","fishtank")
                         .add("type","3")
                         .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
-                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlagDown\":"+waterFlagDown+",\"waterFlagUp\":"+waterFlagUp+"}")
                         .build();
                 Request request1=new Request.Builder()
                         .url("https://apis.bemfa.com/va/postmsg")
@@ -328,7 +330,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                         .add("topic","fishtank")
                         .add("type","3")
                         .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
-                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlagDown\":"+waterFlagDown+",\"waterFlagUp\":"+waterFlagUp+"}")
                         .build();
                 Request request1=new Request.Builder()
                         .url("https://apis.bemfa.com/va/postmsg")
@@ -367,7 +369,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                         .add("topic","fishtank")
                         .add("type","3")
                         .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
-                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlagDown\":"+waterFlagDown+",\"waterFlagUp\":"+waterFlagUp+"}")
                         .build();
                 Request request1=new Request.Builder()
                         .url("https://apis.bemfa.com/va/postmsg")
@@ -398,7 +400,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                         .add("topic","fishtank")
                         .add("type","3")
                         .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
-                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                                ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlagDown\":"+waterFlagDown+",\"waterFlagUp\":"+waterFlagUp+"}")
                         .build();
                 Request request1=new Request.Builder()
                         .url("https://apis.bemfa.com/va/postmsg")
@@ -454,7 +456,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                     .add("topic","fishtank")
                     .add("type","3")
                     .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
-                            ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlag\":"+waterFlag+"}")
+                            ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlagDown\":"+waterFlagDown+",\"waterFlagUp\":"+waterFlagUp+"}")
                     .build();
             Request request1=new Request.Builder()
                     .url("https://apis.bemfa.com/va/postmsg")

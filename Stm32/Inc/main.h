@@ -32,7 +32,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -86,13 +86,14 @@ typedef struct{
    // unsigned char *wifi_ip;
     uint8_t motorFlag1;
     uint8_t motorFlag2;
-    uint8_t waterFlag;
+    uint8_t waterFlagUP;
+		uint8_t waterFlagDOWN;
     uint8_t hotFlag;
     uint8_t temp;
     uint8_t ptemp;
     uint32_t zhuod;
     uint32_t pzhuod;
-     
+    uint8_t rxFlag; 
     
 }Fishtank;
 

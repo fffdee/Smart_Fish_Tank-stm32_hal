@@ -8,17 +8,29 @@
 #include "tsw_30.h"
 #include "main.h"
 
-
+extern Fishtank fishtank;
 extern ADC_HandleTypeDef hadc;
 extern UART_HandleTypeDef huart1;
+
 unsigned char Uart1_RxBuff[256]="ready recive";
 
 int T,i;
-unsigned char  rcData = 's';
+extern uint8_t  rcData[1] ;
 uint16_t ADC_Value;  //ADCֵ 
 unsigned char SettingFlag =1;
 
-
+void updata()
+{
+		fishtank.temp = state_unit.temp;
+		fishtank.zhuod = state_unit.zhuod;
+		fishtank.ptemp = state_unit.ptemp;
+		fishtank.zhuod = state_unit.pzhuod;
+		fishtank.waterFlagDOWN = state_unit.waterFlagDOWN;
+		fishtank.waterFlagUP = state_unit.waterFlagUP;
+		fishtank.zhuod = state_unit.zhuod;
+		fishtank.rxFlag = 0xff;
+		HAL_UART_Transmit(&huart1, (uint8_t *)&fishtank,sizeof(Fishtank),0xFFFF);
+}
 
 void fun1(void)
 {
@@ -34,10 +46,10 @@ void fun1(void)
 		OLED_ShowString(40,6,".",16);
 		OLED_ShowString(0,4,"M1:",16);
 		OLED_ShowString(40,4,"M2:",16);
-		OLED_ShowString(80,4,"M3:",16);
+		OLED_ShowString(80,4,"H:",16);
 		OLED_ShowNum(24,4,state_unit.MotorFlag1,1,16);
 		OLED_ShowNum(64,4,state_unit.MotorFlag2,1,16);
-		OLED_ShowNum(104,4,state_unit.MotorFlag3,1,16);
+		OLED_ShowNum(104,4,state_unit.hotFlag,1,16);
 	
 		HAL_ADC_Start( &hadc);  //����ADC
 		
@@ -47,7 +59,11 @@ void fun1(void)
 	//	printf("the adc value is %d\r\n",state_unit.zhuod);//��ȡ��ӡ������ô��ڴ�ӡ�������
 		OLED_ShowNum(24,2,state_unit.zhuod,4,16);
 	  }
-	  delay_us(50000);
+	  
+		for(int i=0; i<10;i++)
+		delay_us(50000);
+		
+
 		OLED_ShowNum(96,6,state_unit.ptemp,2,16);
 	  OLED_ShowNum(96,2,state_unit.pzhuod,4,16);
 		//HAL_UART_Receive_IT(&huart1, (uint8_t *)&rcData, 1);
@@ -59,6 +75,9 @@ void fun1(void)
 		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
 				SettingFlag =1;
 		}
+		HAL_UART_Receive_IT(&huart1, (uint8_t *)&rcData, 1);
+	  updata();
+		
 }
 
 void fun2_1(void)
@@ -72,7 +91,7 @@ void fun2_1(void)
 			OLED_ShowString(32,2,"Temp Set",16);
 			OLED_ShowString(0,2,"->",16);
 			OLED_ShowString(32,4,"ZD Set",16);
-			OLED_ShowString(32,6,"Motor Test",16);
+			OLED_ShowString(32,6,"ControlTest",16);
 			if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
 				SettingFlag =1;
 			}
@@ -99,7 +118,7 @@ void fun2_2(void)
 			OLED_ShowString(32,2,"Temp Set",16);
 			OLED_ShowString(0,4,"->",16);
 			OLED_ShowString(32,4,"ZD Set",16);
-			OLED_ShowString(32,6,"Motor Test",16);
+			OLED_ShowString(32,6,"ControlTest",16);
 			if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
 				SettingFlag =1;
 			}
@@ -117,7 +136,7 @@ void fun2_3(void)
 			OLED_ShowString(32,2,"Temp Set",16);
 			OLED_ShowString(0,6,"->",16);
 			OLED_ShowString(32,4,"ZD Set",16);
-			OLED_ShowString(32,6,"Motor Test",16);
+			OLED_ShowString(32,6,"ControlTest",16);
 		 if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4)==0)
 
     {
@@ -138,7 +157,7 @@ void fun2_4(void)
 			OLED_ShowString(40,0,"Setting",16);
 			OLED_ShowString(32,2,"ZD Set",16);
 			OLED_ShowString(0,6,"->",16);
-			OLED_ShowString(32,4,"Motor Test",16);
+			OLED_ShowString(32,4,"ControlTest",16);
 			OLED_ShowString(32,6,"EXIT",16);
 			if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
 				SettingFlag =1;
@@ -204,7 +223,7 @@ void fun3_2(void)
 	  if(HAL_ADC_PollForConversion(&hadc, 100)==HAL_OK )  //���ת��������
 	  {
 		  
-		printf("the adc value is %d\r\n",state_unit.zhuod);//��ȡ��ӡ������ô��ڴ�ӡ�������
+		//printf("the adc value is %d\r\n",state_unit.zhuod);//��ȡ��ӡ������ô��ڴ�ӡ�������
 		OLED_ShowNum(96,2,state_unit.zhuod,4,16);
 	  }
 		OLED_ShowString(32,4,"ZD-SET",16);
@@ -247,12 +266,12 @@ void fun3_3_1(void)
 		OLED_ShowString(32,2,"Motor 1",16);
 		OLED_ShowString(0,2,"->",16);
 		OLED_ShowString(32,4,"Motor 2",16);
-		OLED_ShowString(32,6,"Motor 3",16);
+		OLED_ShowString(32,6,"Hot Ctrl",16);
 		if(state_unit.MotorFlag1==0)OLED_ShowString(96,2,"OFF",16);
 		else OLED_ShowString(96,2,"ON ",16);
 		if(state_unit.MotorFlag2==0)OLED_ShowString(96,4,"OFF",16);
 		else OLED_ShowString(96,4,"ON ",16);
-		if(state_unit.MotorFlag3==0)OLED_ShowString(96,6,"OFF",16);
+		if(state_unit.hotFlag==0)OLED_ShowString(96,6,"OFF",16);
 		else OLED_ShowString(96,6,"ON ",16);
 		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0)
 
@@ -287,12 +306,12 @@ void fun3_3_2(void)
 		OLED_ShowString(32,2,"Motor 1",16);
 		OLED_ShowString(32,4,"Motor 2",16);
 		OLED_ShowString(0,4,"->",16);
-		OLED_ShowString(32,6,"Motor 3",16);
+		OLED_ShowString(32,6,"Hot Ctrl",16);
 			if(state_unit.MotorFlag1==0)OLED_ShowString(96,2,"OFF",16);
 		else OLED_ShowString(96,2,"ON ",16);
 		if(state_unit.MotorFlag2==0)OLED_ShowString(96,4,"OFF",16);
 		else OLED_ShowString(96,4,"ON ",16);
-		if(state_unit.MotorFlag3==0)OLED_ShowString(96,6,"OFF",16);
+		if(state_unit.hotFlag==0)OLED_ShowString(96,6,"OFF",16);
 		else OLED_ShowString(96,6,"ON ",16);
 		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0)
 
@@ -316,19 +335,19 @@ void fun3_3_3(void)
 		OLED_ShowString(40,0,"Motor SeT",16);
 		OLED_ShowString(32,2,"Motor 1",16);
 		OLED_ShowString(32,4,"Motor 2",16);
-		OLED_ShowString(32,6,"Motor 3",16);
+		OLED_ShowString(32,6,"Hot Ctrl",16);
 		OLED_ShowString(0,6,"->",16);
 			if(state_unit.MotorFlag1==0)OLED_ShowString(96,2,"OFF",16);
 		else OLED_ShowString(96,2,"ON ",16);
 		if(state_unit.MotorFlag2==0)OLED_ShowString(96,4,"OFF",16);
 		else OLED_ShowString(96,4,"ON ",16);
-		if(state_unit.MotorFlag3==0)OLED_ShowString(96,6,"OFF",16);
+		if(state_unit.hotFlag==0)OLED_ShowString(96,6,"OFF",16);
 		else OLED_ShowString(96,6,"ON ",16);
 		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0)
 
      {
-			 if(state_unit.MotorFlag3==0) state_unit.MotorFlag3=1;
-			 else state_unit.MotorFlag3=0;
+			 if(state_unit.hotFlag==0) state_unit.hotFlag=1;
+			 else state_unit.hotFlag=0;
 					
 				 
          while(!HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)); 
@@ -353,13 +372,13 @@ void fun3_3_4(void)
 		OLED_ClearSet();
 		OLED_ShowString(40,0,"Motor SeT",16);
 		OLED_ShowString(32,2,"Motor 2",16);
-		OLED_ShowString(32,4,"Motor 3",16);
+		OLED_ShowString(32,4,"Hot Ctrl",16);
 		OLED_ShowString(32,6,"EXIT",16);
 		OLED_ShowString(0,6,"->",16);
 
 		if(state_unit.MotorFlag2==0)OLED_ShowString(96,2,"OFF",16);
 		else OLED_ShowString(96,2,"ON ",16);
-		if(state_unit.MotorFlag3==0)OLED_ShowString(96,4,"OFF",16);
+		if(state_unit.hotFlag==0)OLED_ShowString(96,4,"OFF",16);
 		else OLED_ShowString(96,4,"ON ",16);
 		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
 				SettingFlag =1;

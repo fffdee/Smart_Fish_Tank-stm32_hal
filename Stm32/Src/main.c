@@ -11,8 +11,6 @@
 #include <cstring>
 #include "function.h"
 extern ADC_HandleTypeDef hadc;
-TIM_HandleTypeDef htim2;
-static void MX_TIM2_Init(void);
 static void SystemClock_Config(void);
 extern UART_HandleTypeDef huart1;
 unsigned char check_ds18b20; 
@@ -20,11 +18,11 @@ unsigned char check_ds18b20;
 extern unsigned char Uart1_RxBuff[256];
 extern short temp_T;
 extern int T,i;
-extern unsigned char  rcData;
+uint8_t  rcData[1];
 extern uint16_t ADC_Value;  //ADC值
 
 extern unsigned char SettingFlag ;
-//extern unsigned char MotorFlag1 ;
+extern unsigned char MotorFlag1 ;
 extern unsigned char MotorFlag2 ;
 extern unsigned char MotorFlag3 ;
 extern unsigned char ExtTemp ;
@@ -32,7 +30,7 @@ extern unsigned int ExtZD;
 
 Fishtank fishtank;
 State_Unit state_unit;
-
+uint32_t int32_data[4] = {0};
 void Stata_Unit_Init(void)
 {
 		state_unit.wifi_ip = NULL;
@@ -149,7 +147,6 @@ int main(void)
 
   HAL_Init();
 
-	MX_TIM2_Init();
   SystemClock_Config();
 	UARST1_Init();
 	NVIC_Init();
@@ -175,7 +172,6 @@ int main(void)
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&rcData , 1);   //再开启接收中断
 	OLED_Clear();
 	Stata_Unit_Init();
-	HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_2);
   while (1)
   {
 
@@ -223,37 +219,14 @@ int main(void)
                             current_operation_index=table[func_index].current_operation;
 
                             (*current_operation_index)();
-														 __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,250); 
+ 
 														State_update(state_unit);
 													  logic_handle(state_unit);
 
-//		if(LED_FLAG==1){
-//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-//				delay_us(50000);
-//				delay_us(50000);
-//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-//				delay_us(50000);
-//				delay_us(50000);
-//				BEEP_FLAG=0;
-//		}
-//		else{
-//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-//		}
-//		if(BEEP_FLAG==1){
-//				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
-//				delay_us(50000);
-//				delay_us(50000);
-//				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
-//				delay_us(50000);
-//				delay_us(50000);
-//			LED_FLAG=0;
-//		}else{
-//				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
-//		}
+
 		
-//		delay_us(50000);
-//		delay_us(50000);
-//		printf("ok\n");
+
+
 			//HAL_ADC_Start_IT(&hadc); //开启ADC转换中
 	
   }
@@ -276,113 +249,90 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
            the HAL_UART_TxCpltCallback could be implemented in the user file
    */
 		
+			Uart1_Rx_Cnt+=1;
+			Uart1_RxBuff[Uart1_Rx_Cnt-1]=rcData[0];
+			
+			if(rcData[0] == 0x7F){
+//			 for(int i=0;i<Uart1_Rx_Cnt;i++)
+//				printf("UART DataBuff[%d] = 0x%x\r\n",i,Uart1_RxBuff[i]);	
+			memcpy(&fishtank,&Uart1_RxBuff,Uart1_Rx_Cnt ); 	
+			state_unit.ptemp = fishtank.ptemp;
+			printf("UART DataBuff[11] = 0x%x\r\n",fishtank.pzhuod);
+			int32_data[0] = Uart1_RxBuff[12];
+			int32_data[1] = Uart1_RxBuff[13];
+			int32_data[2] = Uart1_RxBuff[14];
+			int32_data[3] = Uart1_RxBuff[15];
+			state_unit.pzhuod = int32_data[0]|int32_data[1]<<8|int32_data[2]<<16|int32_data[3]<<24;
+			state_unit.MotorFlag1 = fishtank.motorFlag1;
+			state_unit.MotorFlag2 = fishtank.motorFlag2;
+			state_unit.hotFlag = fishtank.hotFlag;
+			memset(Uart1_RxBuff,0,sizeof(Uart1_RxBuff));
+			Uart1_Rx_Cnt =0;	
+			}
 		
-		Uart1_RxBuff[Uart1_Rx_Cnt]=rcData;
-		Uart1_Rx_Cnt+=1;
-	
-		//memcpy(&fishtank,&Uart1_RxBuff,Uart1_Rx_Cnt ); 
-		
+	//	memcpy((uint8_t *)&fishtank,(uint8_t *)&Uart1_RxBuff,Uart1_Rx_Cnt ); 
+
 				
 		 
-				state_unit.ptemp = fishtank.ptemp;
-			
-        state_unit.pzhuod = fishtank.pzhuod;
-        state_unit.MotorFlag1 = fishtank.motorFlag1;
-        state_unit.MotorFlag1 = fishtank.motorFlag2;
-        state_unit.hotFlag = fishtank.hotFlag;
+//		state_unit.ptemp = fishtank.ptemp;
+//			
+//    state_unit.pzhuod = fishtank.pzhuod;
+//    state_unit.MotorFlag1 = Uart1_RxBuff[0];
+//    state_unit.MotorFlag2 = Uart1_RxBuff[1];
+//    state_unit.hotFlag = Uart1_RxBuff[2];
+//			
+//		state_unit.ptemp = fishtank.ptemp;
+//			
+//    state_unit.pzhuod = fishtank.pzhuod;
+//    state_unit.MotorFlag1 = fishtank.motorFlag1;
+//    state_unit.MotorFlag2 = fishtank.motorFlag2;
+//    state_unit.hotFlag = fishtank.hotFlag;
+//	
+		
+   		//HAL_UART_Transmit(&huart1, rcData,1,0xFFFF);
+//		printf("收到:%d",Uart1_Rx_Cnt);
+//		printf("or1:%d\n\t",Uart1_RxBuff[0]);
+//		printf("or2:%d\n\t",Uart1_RxBuff[1]);
+//		printf("or3:%d\n\t",Uart1_RxBuff[2]);
+//		printf("or4:%d\n\t",Uart1_RxBuff[3]);
+//		printf("or5:%d\n\t",Uart1_RxBuff[4]);
+//		printf("or6:%d\n\t",Uart1_RxBuff[5]);
+//		printf("or7:%d\n\t",Uart1_RxBuff[6]);
+//		printf("or8:%d\n\t",Uart1_RxBuff[7]);
+//		printf("or9:%d\n\t",Uart1_RxBuff[8]);
+//		printf("or10:%d\n\t",Uart1_RxBuff[9]);
+//		printf("or11:%d\n\t",Uart1_RxBuff[10]);
+//		printf("or12:%d\n\t",Uart1_RxBuff[11]);
+	//	memset(Uart1_RxBuff, 0x00, sizeof(Uart1_RxBuff));
+// 		if(rcData=='+')
+//		{
+//			state_unit.MotorFlag1 = 1;
+//			
+//						Uart1_Rx_Cnt =0;
+//		}
+//			if(rcData=='*')
+//		{
+//			state_unit.MotorFlag1 = 0;
+//							Uart1_Rx_Cnt =0;
+//		}
+//		
+//		if(rcData=='(')
+//		{
+//			state_unit.MotorFlag2 = 1;
+//							Uart1_Rx_Cnt =0;
+//		}
+//		if(rcData==')')
+//		{
+//			state_unit.MotorFlag2 = 0;
+//							Uart1_Rx_Cnt =0;
+//		}
+//		
+//	
 	
-
-//		OLED_Clear();
-//		OLED_ShowString(8,0,"show receive:",16);
-//		OLED_ShowString(8,4,"show Temp:",16);
-//		OLED_ShowString(64,6,"C",16);
-//		OLED_ShowString(48,6,".",16);
-		
-		//HAL_UART_Transmit(&huart1, (uint8_t *)Uart1_RxBuff , sizeof(Uart1_RxBuff),0xFFFF);
-		
-		
- 	/*	if(rcData=='+')
-		{
-			
-				BEEP_FLAG=1;
-				
-			Uart1_Rx_Cnt = 0;
-			
-		}
-		if(rcData=='!')
-		{
-			LED_FLAG=1;
-				//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-			for(i=0;i<sizeof(Uart1_RxBuff);i++){
-				Uart1_RxBuff[i]=0;
-			}
-			Uart1_Rx_Cnt = 0;
-			//memset(Uart1_RxBuff, 0x00, sizeof(Uart1_RxBuff));
-		
-				
-		}
-		if(rcData=='*')
-		{
-				LED_FLAG=0;
-				BEEP_FLAG=0;
-			  OLED_Clear_H(2);
-				//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-				
-				
-		}*/
-		
-		
 
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&rcData, 1);   //再开启接收中断
 }
 
-static void MX_TIM2_Init(void)
-{
-
-  /* USER CODE BEGIN TIM1_Init 0 */
-
-  /* USER CODE END TIM1_Init 0 */
-
-    TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
-
-  /* USER CODE BEGIN TIM2_Init 1 */
-
-  /* USER CODE END TIM2_Init 1 */
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 0;
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 4294967295;
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_OC_Init(&htim2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM2_Init 2 */
-
-  /* USER CODE END TIM2_Init 2 */
-  HAL_TIM_MspPostInit(&htim2);
-
-	__HAL_RCC_GPIOF_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-
-
-}
 
 void SystemClock_Config(void)
 {
