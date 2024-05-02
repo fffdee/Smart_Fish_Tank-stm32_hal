@@ -44,7 +44,7 @@ void fun1(void)
 	  if(HAL_ADC_PollForConversion(&hadc, 100)==HAL_OK )  //���ת��������
 	  {
 		state_unit.zhuod = HAL_ADC_GetValue(&hadc);
-		printf("the adc value is %d\r\n",state_unit.zhuod);//��ȡ��ӡ������ô��ڴ�ӡ�������
+	//	printf("the adc value is %d\r\n",state_unit.zhuod);//��ȡ��ӡ������ô��ڴ�ӡ�������
 		OLED_ShowNum(24,2,state_unit.zhuod,4,16);
 	  }
 	  delay_us(50000);

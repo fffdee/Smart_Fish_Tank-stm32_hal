@@ -54,23 +54,20 @@ void turnOffLed();
 
 typedef struct{
   
-    unsigned char *wifi_ip;
-    unsigned char MotorFlag1;
-    unsigned char MotorFlag2;
-    unsigned char MotorFlag3;
-    unsigned char waterFlagUP;
-    unsigned char waterFlagDOWN;
-    unsigned char hotFlag;
-    unsigned char autoMode;
-    short temp;
-    short ptemp;
+   // unsigned char *wifi_ip;
+    uint8_t motorFlag1;
+    uint8_t motorFlag2;
+    uint8_t waterFlag;
+    uint8_t hotFlag;
+    uint8_t temp;
+    uint8_t ptemp;
     uint32_t zhuod;
     uint32_t pzhuod;
      
     
 }Fishtank;
 
-Fishtank fishtank_data;
+Fishtank fishtank_data={0};
 
 unsigned char MotorFlag1;
 unsigned char MotorFlag2;
@@ -88,12 +85,12 @@ void sendtoTCPServer(String p){
   
   if (!TCPclient.connected()) 
   {
-    Serial.println("Client is not readly");
+    //Serial.println("Client is not readly");
     return;
   }
   TCPclient.print(p);
-  Serial.println("[Send to TCPServer]:String");
-  Serial.println(p);
+  //Serial.println("[Send to TCPServer]:String");
+  //Serial.println(p);
   preHeartTick = millis();//心跳计时开始，需要每隔60秒发送一次数据
 }
 
@@ -103,8 +100,8 @@ void sendtoTCPServer(String p){
 */
 void startTCPClient(){
   if(TCPclient.connect(TCP_SERVER_ADDR, atoi(TCP_SERVER_PORT))){
-    Serial.print("\nConnected to server:");
-    Serial.printf("%s:%d\r\n",TCP_SERVER_ADDR,atoi(TCP_SERVER_PORT));
+   // Serial.print("\nConnected to server:");
+   // Serial.printf("%s:%d\r\n",TCP_SERVER_ADDR,atoi(TCP_SERVER_PORT));
     
     String tcpTemp="";  //初始化字符串
     tcpTemp = "cmd=1&uid="+UID+"&topic="+TOPIC+"\r\n"; //构建订阅指令
@@ -115,8 +112,8 @@ void startTCPClient(){
     TCPclient.setNoDelay(true);
   }
   else{
-    Serial.print("Failed connected to server:");
-    Serial.println(TCP_SERVER_ADDR);
+    //Serial.print("Failed connected to server:");
+   // Serial.println(TCP_SERVER_ADDR);
     TCPclient.stop();
     preTCPConnected = false;
   }
@@ -137,8 +134,8 @@ void doTCPClientTick(){
 
     preTCPConnected = false;
     preTCPStartTick = millis();
-    Serial.println();
-    Serial.println("TCP Client disconnected.");
+    //Serial.println();
+   // Serial.println("TCP Client disconnected.");
     TCPclient.stop();
   }
   else if(millis() - preTCPStartTick > 1*1000)//重新连接
@@ -159,7 +156,7 @@ void doTCPClientTick(){
     }
     if(millis() - preHeartTick >= KEEPALIVEATIME){//保持心跳
       preHeartTick = millis();
-      Serial.println("--Keep alive:");
+     // Serial.println("--Keep alive:");
       sendtoTCPServer("cmd=0&msg=keep\r\n");
     }
   }
@@ -177,9 +174,9 @@ void doTCPClientTick(){
   if((TcpClient_Buff.length() >= 1) && (millis() - TcpClient_preTick>=200))
   {//data ready
     TCPclient.flush();
-    Serial.print("Rev string: ");
+    //Serial.print("Rev string: ");
     TcpClient_Buff.trim(); //去掉首位空格
-    Serial.println(TcpClient_Buff); //打印接收到的消息
+    //Serial.println(TcpClient_Buff); //打印接收到的消息
     String getTopic = "";
     String getMsg = "";
     if(TcpClient_Buff.length() > 15){//注意TcpClient_Buff只是个字符串，在上面开头做了初始化 String TcpClient_Buff = "";
@@ -188,10 +185,10 @@ void doTCPClientTick(){
           int msgIndex = TcpClient_Buff.indexOf("&msg=");//c语言字符串查找，查找&msg=位置
           getTopic = TcpClient_Buff.substring(topicIndex,msgIndex);//c语言字符串截取，截取到topic,不懂的可百度c语言字符串截取
           getMsg = TcpClient_Buff.substring(msgIndex+5);//c语言字符串截取，截取到消息
-          Serial.print("topic:------");
+         /* Serial.print("topic:------");
           Serial.println(getTopic); //打印截取到的主题值
           Serial.print("msg:--------");
-          Serial.println(getMsg);   //打印截取到的消息值
+          Serial.println(getMsg);   //打印截取到的消息值*/
           DeserializationError error = deserializeJson(jsonBuffer2, getMsg);
          if (error) 
         {
@@ -199,14 +196,34 @@ void doTCPClientTick(){
             Serial.println(error.f_str());
             return;
         }
-        Serial.println(String(jsonBuffer2["temp"]));
+     
+   /*     Serial.println(String(jsonBuffer2["temp"]));
         Serial.println(String(jsonBuffer2["Ptemp"]));
         Serial.println(String(jsonBuffer2["zhuod"]));
         Serial.println(String(jsonBuffer2["Pzhuod"]));
         Serial.println(String(jsonBuffer2["motor1"]));
         Serial.println(String(jsonBuffer2["motor2"]));
         Serial.println(String(jsonBuffer2["hot"]));
-        Serial.println(String(jsonBuffer2["waterFlag"]));
+        Serial.println(String(jsonBuffer2["waterFlag"]));*/
+        fishtank_data.temp = jsonBuffer2["temp"];
+        fishtank_data.ptemp = jsonBuffer2["Ptemp"];
+        fishtank_data.zhuod = jsonBuffer2["zhuod"];
+        fishtank_data.pzhuod = jsonBuffer2["Pzhuod"];
+        fishtank_data.motorFlag1 = jsonBuffer2["motor1"];
+        fishtank_data.motorFlag2 = jsonBuffer2["motor2"];
+        fishtank_data.hotFlag = jsonBuffer2["hot"];
+        fishtank_data.waterFlag = jsonBuffer2["waterFlag"];
+        digitalWrite(LED_Pin,LOW);
+        byte b[sizeof(fishtank_data)];
+        if(fishtank_data.motorFlag1 == 1){
+             Serial.write("*");
+             digitalWrite(LED_Pin,HIGH);
+        }else{
+            Serial.write("+");
+            digitalWrite(LED_Pin,LOW);
+        } 
+       // memcpy(b,&fishtank_data,sizeof(Fishtank));
+       // Serial.write(b, sizeof(Fishtank));
    }
 
 
@@ -240,7 +257,7 @@ void doWiFiTick(){
   if (!startSTAFlag) {
     startSTAFlag = true;
     startSTA();
-    Serial.printf("Heap size:%d\r\n", ESP.getFreeHeap());
+  //  Serial.printf("Heap size:%d\r\n", ESP.getFreeHeap());
   }
 
   //未连接1s重连
@@ -253,8 +270,8 @@ void doWiFiTick(){
   else {
     if (taskStarted == false) {
       taskStarted = true;
-      Serial.print("\r\nGet IP Address: ");
-      Serial.println(WiFi.localIP());
+    //  Serial.print("\r\nGet IP Address: ");
+    //  Serial.println(WiFi.localIP());
       startTCPClient();
     }
   }
@@ -266,7 +283,7 @@ void setup() {
   Serial.begin(115200);
   pinMode(LED_Pin,OUTPUT);
   digitalWrite(LED_Pin,HIGH);
-  Serial.println("Beginning...");
+ // Serial.println("Beginning...");
 }
 
 //循环

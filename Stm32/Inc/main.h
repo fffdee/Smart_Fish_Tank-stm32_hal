@@ -80,6 +80,23 @@ typedef struct{
 		
 }State_Unit;
 
+
+typedef struct{
+  
+   // unsigned char *wifi_ip;
+    uint8_t motorFlag1;
+    uint8_t motorFlag2;
+    uint8_t waterFlag;
+    uint8_t hotFlag;
+    uint8_t temp;
+    uint8_t ptemp;
+    uint32_t zhuod;
+    uint32_t pzhuod;
+     
+    
+}Fishtank;
+
+extern Fishtank fishtank;
 extern State_Unit state_unit;
 
 #ifdef __cplusplus

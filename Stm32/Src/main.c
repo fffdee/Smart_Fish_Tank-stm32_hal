@@ -30,7 +30,9 @@ extern unsigned char MotorFlag3 ;
 extern unsigned char ExtTemp ;
 extern unsigned int ExtZD; 
 
+Fishtank fishtank;
 State_Unit state_unit;
+
 void Stata_Unit_Init(void)
 {
 		state_unit.wifi_ip = NULL;
@@ -224,6 +226,7 @@ int main(void)
 														 __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,250); 
 														State_update(state_unit);
 													  logic_handle(state_unit);
+
 //		if(LED_FLAG==1){
 //				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
 //				delay_us(50000);
@@ -276,17 +279,29 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		
 		Uart1_RxBuff[Uart1_Rx_Cnt]=rcData;
 		Uart1_Rx_Cnt+=1;
+	
+		//memcpy(&fishtank,&Uart1_RxBuff,Uart1_Rx_Cnt ); 
 		
-		OLED_Clear();
-		OLED_ShowString(8,0,"show receive:",16);
-		OLED_ShowString(8,4,"show Temp:",16);
-		OLED_ShowString(64,6,"C",16);
-		OLED_ShowString(48,6,".",16);
+				
+		 
+				state_unit.ptemp = fishtank.ptemp;
+			
+        state_unit.pzhuod = fishtank.pzhuod;
+        state_unit.MotorFlag1 = fishtank.motorFlag1;
+        state_unit.MotorFlag1 = fishtank.motorFlag2;
+        state_unit.hotFlag = fishtank.hotFlag;
+	
+
+//		OLED_Clear();
+//		OLED_ShowString(8,0,"show receive:",16);
+//		OLED_ShowString(8,4,"show Temp:",16);
+//		OLED_ShowString(64,6,"C",16);
+//		OLED_ShowString(48,6,".",16);
 		
-		HAL_UART_Transmit(&huart1, (uint8_t *)Uart1_RxBuff , sizeof(Uart1_RxBuff),0xFFFF);
+		//HAL_UART_Transmit(&huart1, (uint8_t *)Uart1_RxBuff , sizeof(Uart1_RxBuff),0xFFFF);
 		
 		
- 		if(rcData=='+')
+ 	/*	if(rcData=='+')
 		{
 			
 				BEEP_FLAG=1;
@@ -314,7 +329,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 				//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
 				
 				
-		}
+		}*/
 		
 		
 
