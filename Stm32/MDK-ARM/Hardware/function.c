@@ -22,9 +22,10 @@ unsigned char SettingFlag =1;
 void updata()
 {
 		fishtank.temp = state_unit.temp;
-		fishtank.zhuod = state_unit.zhuod;
+		fishtank.zhuod = state_unit.zhuod/10;
 		fishtank.ptemp = state_unit.ptemp;
-		fishtank.zhuod = state_unit.pzhuod;
+		fishtank.pzhuod = state_unit.pzhuod/10;
+	//  printf("UART DataBuff[11] = 0x%x\r\n",fishtank.zhuod);
 		fishtank.waterFlagDOWN = state_unit.waterFlagDOWN;
 		fishtank.waterFlagUP = state_unit.waterFlagUP;
 		fishtank.motorFlag1 = state_unit.MotorFlag1;

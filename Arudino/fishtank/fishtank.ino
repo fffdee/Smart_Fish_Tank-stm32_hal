@@ -17,7 +17,7 @@ String TOPIC =   "fishtank";         //主题名字，可在控制台新建
 const int LED_Pin = 2;              //单片机LED引脚值，GPIO0引脚
 
 //**************************************************//
-StaticJsonDocument<500> jsonBuffer2;
+StaticJsonDocument<300> jsonBuffer2;
 
 
 //最大字节数
@@ -65,9 +65,9 @@ typedef struct{
     uint8_t hotFlag;
     uint8_t temp;
     uint8_t ptemp;
-    uint32_t zhuod;
-    uint32_t pzhuod;
-    uint32_t rxbug; 
+    uint8_t rxbug;
+    uint8_t zhuod;
+    uint8_t pzhuod;
     uint32_t rxFlag; 
     
 }Fishtank;
@@ -308,7 +308,11 @@ void loop() {
     rxdata[count++] = serialData;
     if(serialData == 0xFF){
       
-        memcpy((uint8_t *)&fishtank_data,&rxdata,sizeof(Fishtank));
+        //memcpy((uint8_t *)&fishtank_data,&rxdata,sizeof(Fishtank));
+        fishtank_data.temp = rxdata[5];
+        fishtank_data.ptemp = rxdata[6];
+        fishtank_data.zhuod = rxdata[7];
+        fishtank_data.pzhuod = rxdata[8];
         count = 0;
         
       }

@@ -258,9 +258,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 //				printf("UART DataBuff[%d] = 0x%x\r\n",i,Uart1_RxBuff[i]);	
 			memcpy((uint8_t *)&fishtank, &Uart1_RxBuff,Uart1_Rx_Cnt ); 	
 			state_unit.ptemp = fishtank.ptemp;
-			//printf("UART DataBuff[11] = 0x%x\r\n",fishtank.pzhuod);
-			if(fishtank.rxbug==1)state_unit.pzhuod = fishtank.pzhuod+128;	
-			else state_unit.pzhuod = fishtank.pzhuod;
+			
+			//if(fishtank.rxbug==1)state_unit.pzhuod = fishtank.pzhuod+128;	
+			state_unit.pzhuod = fishtank.pzhuod*10;
 			state_unit.MotorFlag1 = fishtank.motorFlag1;
 			state_unit.MotorFlag2 = fishtank.motorFlag2;
 			state_unit.hotFlag = fishtank.hotFlag;
