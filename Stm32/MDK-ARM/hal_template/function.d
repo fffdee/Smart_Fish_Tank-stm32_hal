@@ -39,6 +39,7 @@ hal_template\function.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_usart
 hal_template\function.o: .\Hardware\LED\led.h
 hal_template\function.o: .\Hardware\BEEP\beep.h
 hal_template\function.o: .\Hardware\KEY\key.h
+hal_template\function.o: .\Hardware\motor\motor.h
 hal_template\function.o: .\Hardware\DS18B20\ds18b20.h
 hal_template\function.o: .\Hardware\UARST\uarst1.h
 hal_template\function.o: E:\keil5\ARM\ARMCC\Bin\..\include\stdlib.h

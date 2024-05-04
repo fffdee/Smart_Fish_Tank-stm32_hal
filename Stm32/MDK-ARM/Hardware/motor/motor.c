@@ -20,6 +20,12 @@ void MOTOR_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+//	
+//	GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_14;
+//  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+//  GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 				
+		
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
@@ -29,6 +35,6 @@ void  MOTOR_Handle(State_Unit unit){
 													 
 	 if(unit.MotorFlag2==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
 													 
-	 if(unit.MotorFlag3==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
+	 if(unit.hotFlag==1)HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_SET);else HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_RESET);
 
 }

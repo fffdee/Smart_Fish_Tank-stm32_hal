@@ -1,8 +1,9 @@
 
 #include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
+#include <Servo.h>
 
-
+Servo myservo;
 //巴法云服务器地址默认即可
 #define TCP_SERVER_ADDR "bemfa.com"
 //服务器端口，tcp创客云端口8344
@@ -203,14 +204,14 @@ void doTCPClientTick(){
             return;
         }
      
-   /*     Serial.println(String(jsonBuffer2["temp"]));
-        Serial.println(String(jsonBuffer2["Ptemp"]));
-        Serial.println(String(jsonBuffer2["zhuod"]));
-        Serial.println(String(jsonBuffer2["Pzhuod"]));
-        Serial.println(String(jsonBuffer2["motor1"]));
-        Serial.println(String(jsonBuffer2["motor2"]));
-        Serial.println(String(jsonBuffer2["hot"]));
-        Serial.println(String(jsonBuffer2["waterFlag"]));*/
+//        Serial.println(String(jsonBuffer2["temp"]));
+//        Serial.println(String(jsonBuffer2["Ptemp"]));
+//        Serial.println(String(jsonBuffer2["zhuod"]));
+//        Serial.println(String(jsonBuffer2["Pzhuod"]));
+//        Serial.println(String(jsonBuffer2["motor1"]));
+//        Serial.println(String(jsonBuffer2["motor2"]));
+//        Serial.println(String(jsonBuffer2["hot"]));
+//        Serial.println(String(jsonBuffer2["waterFlagDOWN"]));
         fishtank_data.temp = jsonBuffer2["temp"];
         fishtank_data.ptemp = jsonBuffer2["Ptemp"];
         fishtank_data.zhuod = jsonBuffer2["zhuod"];
@@ -218,9 +219,12 @@ void doTCPClientTick(){
         fishtank_data.motorFlag1 = jsonBuffer2["motor1"];
         fishtank_data.motorFlag2 = jsonBuffer2["motor2"];
         fishtank_data.hotFlag = jsonBuffer2["hot"];
-        fishtank_data.waterFlagDOWN = jsonBuffer2["waterFlagDOWN"];
-        fishtank_data.waterFlagUP = jsonBuffer2["waterFlagUP"];
-        
+        fishtank_data.waterFlagDOWN = jsonBuffer2["waterFlagDown"];
+        fishtank_data.waterFlagUP = jsonBuffer2["waterFlagUp"];
+        if(fishtank_data.waterFlagDOWN==1){
+            myservo.write(180);
+            fishtank_data.waterFlagDOWN = 0; 
+         }else myservo.write(0);  
         digitalWrite(LED_Pin,LOW);
         byte b[sizeof(fishtank_data)];
         if(((fishtank_data.pzhuod/128)%2)){
@@ -292,6 +296,8 @@ void setup() {
   Serial.begin(115200);
   pinMode(LED_Pin,OUTPUT);
   digitalWrite(LED_Pin,HIGH);
+  myservo.attach(0);
+  myservo.write(0);   
  // Serial.println("Beginning...");
 
 }
@@ -311,8 +317,8 @@ void loop() {
         //memcpy((uint8_t *)&fishtank_data,&rxdata,sizeof(Fishtank));
         fishtank_data.temp = rxdata[5];
         fishtank_data.ptemp = rxdata[6];
-        fishtank_data.zhuod = rxdata[7];
-        fishtank_data.pzhuod = rxdata[8];
+        fishtank_data.zhuod = rxdata[8];
+        fishtank_data.pzhuod = rxdata[9];
         count = 0;
         
       }

@@ -2,6 +2,7 @@
 #include "led.h"
 #include "beep.h"
 #include "key.h"
+#include "motor.h"
 #include "ds18b20.h"
 #include "uarst1.h"
 #include "oled.h"
@@ -19,6 +20,41 @@ extern uint8_t  rcData[1] ;
 uint16_t ADC_Value;  //ADCֵ 
 unsigned char SettingFlag =1;
 
+void State_update(State_Unit unit){
+	
+				if(HAL_ADC_PollForConversion(&hadc, 100)==HAL_OK )  //如果转换结果完成
+				{
+					unit.zhuod = HAL_ADC_GetValue(&hadc);
+				}
+				unit.temp = DS18B20_Get_Temp();
+	
+}
+void Exchange_Water_Handle(){
+		
+	if(state_unit.zhuod>state_unit.pzhuod){
+			if(state_unit.waterFlagDOWN==1)
+			state_unit.MotorFlag1 = 1;
+			else if((state_unit.waterFlagDOWN==0)&&(state_unit.waterFlagDOWN==0))
+			state_unit.MotorFlag1 = 0;
+			state_unit.MotorFlag2 = 1;
+
+	}
+//	if((state_unit.waterFlagDOWN==1)&&(state_unit.waterFlagUP==0))
+//		state_unit.MotorFlag2 = 1;
+//	else if((state_unit.waterFlagDOWN==1)&&(state_unit.waterFlagUP==01))
+//		state_unit.MotorFlag2 = 0;
+
+}
+void logic_handle(State_Unit unit){
+
+		MOTOR_Handle(unit);
+	
+		Exchange_Water_Handle();
+
+		if(state_unit.temp<state_unit.ptemp)
+		state_unit.hotFlag = 1;
+		else state_unit.hotFlag = 0;
+}
 void updata()
 {
 		fishtank.temp = state_unit.temp;
@@ -80,8 +116,12 @@ void fun1(void)
 		if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_6)==0){
 				SettingFlag =1;
 		}
+		
 		HAL_UART_Receive_IT(&huart1, (uint8_t *)&rcData, 1);
+		State_update(state_unit);
+		logic_handle(state_unit);
 	  updata();
+		
 		
 }
 

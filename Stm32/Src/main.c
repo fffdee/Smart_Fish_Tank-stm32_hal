@@ -42,7 +42,7 @@ void Stata_Unit_Init(void)
 		state_unit.waterFlagUP = 1;
 		state_unit.waterFlagDOWN = 1;
 		state_unit.temp = DS18B20_Get_Temp();
-		state_unit.pzhuod = 3600;
+		state_unit.pzhuod = 600;
 	  state_unit.autoMode = 1;
 //		if(HAL_ADC_PollForConversion(&hadc, 100)==HAL_OK )  //如果转换结果完成
 //	  {
@@ -111,37 +111,7 @@ key_table table[30]=
 
 };
 
-void State_update(State_Unit unit){
-	
-				if(HAL_ADC_PollForConversion(&hadc, 100)==HAL_OK )  //如果转换结果完成
-				{
-					unit.zhuod = HAL_ADC_GetValue(&hadc);
-				}
-				unit.temp = DS18B20_Get_Temp();
-	
-}
-void Exchange_Water_Handle(State_Unit unit){
-		
-	if(unit.zhuod<unit.pzhuod){
-			if(unit.waterFlagDOWN==1)
-			unit.MotorFlag1 = 1;
-			else if((unit.waterFlagDOWN==0)&&(unit.waterFlagDOWN==0))
-			unit.MotorFlag1 = 0;
-			unit.MotorFlag2 = 1;
 
-	}
-	if((unit.waterFlagDOWN==1)&&(unit.waterFlagUP==0))
-		unit.MotorFlag2 = 1;
-	else if((unit.waterFlagDOWN==1)&&(unit.waterFlagUP==01))
-		unit.MotorFlag2 = 0;
-
-}
-void logic_handle(State_Unit unit){
-
-		MOTOR_Handle(unit);
-		Exchange_Water_Handle(unit);
-		
-}
 
 int main(void)
 {
@@ -220,9 +190,10 @@ int main(void)
                             current_operation_index=table[func_index].current_operation;
 
                             (*current_operation_index)();
- 
-														State_update(state_unit);
-													  logic_handle(state_unit);
+// 
+//														State_update(state_unit);
+//													  logic_handle(state_unit);
+//	
 
 
 		

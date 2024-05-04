@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.two_dog_fish_tank"
-        minSdkVersion 30
+        minSdkVersion 24
         targetSdkVersion 32
         versionCode 1
         versionName "1.0"

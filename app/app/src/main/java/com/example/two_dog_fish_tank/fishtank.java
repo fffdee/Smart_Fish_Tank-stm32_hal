@@ -41,7 +41,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
     private final int MOTOR2 = 2;
     private final int SEND = 3;
     private final int GET1 = 5;
-    private final int GET2 = 6;
+    private final int EAT = 6;
     private final int HOT = 9;
 
     private ToggleButton toggleButton,PrevalMode,Motor1,Motor2;
@@ -58,6 +58,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
         findViewById(R.id.MOTOR1).setOnClickListener(this);
         findViewById(R.id.M2).setOnClickListener(this);
         findViewById(R.id.HOT).setOnClickListener(this);
+        findViewById(R.id.Eat).setOnClickListener(this);
 
         toggleButton = findViewById(R.id.HOT);
         Ttemp = findViewById(R.id.Ttemp);
@@ -110,7 +111,9 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                     JSONObject json_data = new JSONObject(msg_json);
                     tempVal =  json_data.optInt("temp");
                     PtempVal =  json_data.optInt("Ptemp");
-                    zhuod =  json_data.optInt("zhuod");
+                    if(json_data.optInt("zhuod")*10<1500)
+                    zhuod =  json_data.optInt("zhuod")*10;
+                    if(json_data.optInt("Pzhuod")!=0)
                     Pzhuod =  json_data.optInt("Pzhuod");
                     motor1Flag =  json_data.optInt("motor1");
                     motor2Flag =  json_data.optInt("motor2");
@@ -120,20 +123,20 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                     Ttemp.setText("当前温度："+tempVal+"°");
                     Tptemp.setText("预设温度："+ PtempVal+"°");
                     Tzhuod.setText("当前浊度："+zhuod);
-                    Tpzhuod.setText("预设浊度："+Pzhuod);
+                    Tpzhuod.setText("预设浊度："+Pzhuod+"0");
                     if(motor1Flag==0) {
-                        motor1.setText("电机1：关闭");
+                        motor1.setText("供氧：关闭");
                         Motor1.setChecked(true);
                     } else{
-                        motor1.setText("电机1：启动");
+                        motor1.setText("供氧：启动");
                         Motor1.setChecked(false);
                     }
                     if(motor2Flag==0) {
-                        motor2.setText("电机2：关闭");
+                        motor2.setText("过滤：关闭");
                         Motor2.setChecked(true);
                     }
                     else {
-                        motor2.setText("电机2：启动");
+                        motor2.setText("过滤：启动");
                         Motor2.setChecked(false);
                     }
                     if(hotFlag==0) {
@@ -144,9 +147,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                         hotflag.setText("加热：打开");
                         toggleButton.setChecked(true);
                     }
-                    if((waterFlagDown==0)&&(waterFlagUp==0)) waterflag.setText("水位：最低水位");
-                    else if((waterFlagDown==1)&&(waterFlagUp==0)) waterflag.setText("水位：抽水中");
-                    else if((waterFlagDown==1)&&(waterFlagUp==1)) waterflag.setText("水位：达标");
+                    waterFlagDown  = 0;
 
                 } catch (Exception e)
                 {
@@ -185,6 +186,9 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
         else if(v.getId()==R.id.M2) {
             handler.sendEmptyMessage(MOTOR2);
 
+        }else if(v.getId()==R.id.Eat) {
+            handler.sendEmptyMessage(EAT);
+
         }
 
     }
@@ -210,7 +214,9 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                 case HOT:
                     HOT();
                     break;
-
+                case EAT:
+                    EAT();
+                    break;
                 default:
                     break;
             }
@@ -221,9 +227,46 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    private void EAT() {
+        waterFlagDown  = 1;
+        try
+        {
+            OkHttpClient client1 =new OkHttpClient();
+            FormBody formBody=new FormBody.Builder()
+                    .add("uid","c03b0385d6468c31245bd9f86236fc4d")
+                    .add("topic","fishtank")
+                    .add("type","3")
+                    .add("msg","{\"temp\":"+tempVal+",\"Ptemp\":"+PtempVal+",\"zhuod\":"+zhuod+",\"Pzhuod\":"+Pzhuod+",\"motor1\":"+motor1Flag+
+                            ",\"motor2\":"+motor2Flag+",\"hot\":"+hotFlag+",\"waterFlagDown\":"+waterFlagDown+",\"waterFlagUp\":"+waterFlagUp+"}")
+                    .build();
+            Request request1=new Request.Builder()
+                    .url("https://apis.bemfa.com/va/postmsg")
+                    .post(formBody)
+                    .build();
+
+            Response response1= client1.newCall(request1).execute();
+            //得到返回数据
+            String data1= response1.body().string();
+            //将返回数据添加到ui页面上
+            //Ttemp.setText(data1);
+            //post方式结束
+
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
     private void HOT(){
         if(toggleButton.isChecked()){
+            if(editText.getText().toString().equals("")) {
+                Toast.makeText(this, "浊值为空", Toast.LENGTH_SHORT).show();
+            }else {
 
+                Pzhuod = Integer.parseInt(String.valueOf(editText.getText()))/10;
+            }
             hotFlag = 1;
             try
             {
@@ -254,7 +297,12 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
             }
 
         }else{
+            if(editText.getText().toString().equals("")) {
+                Toast.makeText(this, "浊值为空", Toast.LENGTH_SHORT).show();
+            }else {
 
+                Pzhuod = Integer.parseInt(String.valueOf(editText.getText()))/10;
+            }
             hotFlag = 0;
             try
             {
@@ -289,7 +337,12 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
     @SuppressLint("SetTextI18n")
     private void MOTOR2() {
         if(Motor2.isChecked()){
+            if(editText.getText().toString().equals("")) {
+                Toast.makeText(this, "浊值为空", Toast.LENGTH_SHORT).show();
+            }else {
 
+                Pzhuod = Integer.parseInt(String.valueOf(editText.getText()))/10;
+            }
             motor2Flag = 0;
             try
             {
@@ -321,7 +374,12 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
 
         }else{
             motor2Flag = 1;
+            if(editText.getText().toString().equals("")) {
+                Toast.makeText(this, "浊值为空", Toast.LENGTH_SHORT).show();
+            }else {
 
+                Pzhuod = Integer.parseInt(String.valueOf(editText.getText()))/10;
+            }
             try
             {
                 OkHttpClient client1 =new OkHttpClient();
@@ -359,7 +417,12 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
 
 
         if(Motor1.isChecked()){
+            if(editText.getText().toString().equals("")) {
+                Toast.makeText(this, "浊值为空", Toast.LENGTH_SHORT).show();
+            }else {
 
+                Pzhuod = Integer.parseInt(String.valueOf(editText.getText()))/10;
+            }
             motor1Flag = 0;
             try
             {
@@ -390,6 +453,13 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
             }
 
         }else{
+
+                if(editText.getText().toString().equals("")) {
+                    Toast.makeText(this, "浊值为空", Toast.LENGTH_SHORT).show();
+                }else {
+
+                    Pzhuod = Integer.parseInt(String.valueOf(editText.getText()))/10;
+                }
 
             motor1Flag = 1;
             try
@@ -432,7 +502,7 @@ public class fishtank extends AppCompatActivity implements View.OnClickListener{
                 Toast.makeText(this, "浊值为空", Toast.LENGTH_SHORT).show();
             }else {
 
-                Pzhuod = Integer.parseInt(String.valueOf(editText.getText()));
+                Pzhuod = Integer.parseInt(String.valueOf(editText.getText()))/10;
             }
         }
         else {

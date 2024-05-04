@@ -91,9 +91,9 @@ typedef struct{
     uint8_t hotFlag;
     uint8_t temp;
     uint8_t ptemp;
+		uint8_t rxbug;
     uint8_t zhuod;
 	  uint8_t pzhuod;
-		uint8_t rxbug;
     uint8_t rxFlag; 
     
 }Fishtank;

@@ -3,11 +3,11 @@
 <title>Static Call Graph - [hal_template\hal_template.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image hal_template\hal_template.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri May 03 15:55:03 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat May 04 23:29:58 2024
 <BR><P>
 <H3>Maximum Stack Usage =        208 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-main &rArr; State_update &rArr; DS18B20_Get_Temp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; __aeabi_llsl
+fun1 &rArr; State_update &rArr; DS18B20_Get_Temp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; __aeabi_llsl
 <P>
 <H3>
 Mutually Recursive functions
@@ -182,7 +182,7 @@ Global Symbols
 <LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Enable
 <LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_InitTick
 <LI><a href="#[5c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_GetSysClockFreq
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updata
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updata
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_ConfigChannel
 <LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
 </UL>
@@ -346,8 +346,8 @@ Global Symbols
 <LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS18B20_Check
 </UL>
 <BR>[Called By]<UL><LI><a href="#[0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fun1
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;State_update
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stata_Unit_Init
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;State_update
 </UL>
 
 <P><STRONG><a name="[4b]"></a>DS18B20_Init</STRONG> (Thumb, 74 bytes, Stack size 32 bytes, ds18b20.o(i.DS18B20_Init))
@@ -414,10 +414,8 @@ Global Symbols
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
 
-<P><STRONG><a name="[94]"></a>Exchange_Water_Handle</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, main.o(i.Exchange_Water_Handle))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = Exchange_Water_Handle
-</UL>
-<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;logic_handle
+<P><STRONG><a name="[94]"></a>Exchange_Water_Handle</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, function.o(i.Exchange_Water_Handle))
+<BR><BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;logic_handle
 </UL>
 
 <P><STRONG><a name="[8f]"></a>HAL_ADC_AnalogWDGConfig</STRONG> (Thumb, 204 bytes, Stack size 20 bytes, stm32f0xx_hal_adc.o(i.HAL_ADC_AnalogWDGConfig))
@@ -520,11 +518,11 @@ Global Symbols
 <P><STRONG><a name="[41]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32f0xx_hal_gpio.o(i.HAL_GPIO_WritePin))
 <BR><BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_GPIO_Init
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTOR_Init
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTOR_Handle
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
 <LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS18B20_Rst
 <LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BEEP_Init
 <LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTOR_Handle
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Write_IIC_Byte
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Wait_Ack
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IIC_Stop
@@ -537,11 +535,11 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_OscConfig
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
-<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_PollForConversion
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
 <LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Enable
+<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_PollForConversion
 </UL>
 
 <P><STRONG><a name="[8a]"></a>HAL_IncTick</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32f0xx_hal.o(i.HAL_IncTick))
@@ -733,7 +731,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_WaitOnFlagUntilTimeout
 <LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updata
+<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updata
 </UL>
 
 <P><STRONG><a name="[91]"></a>HAL_UART_TxCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f0xx_hal_uart.o(i.HAL_UART_TxCpltCallback))
@@ -794,7 +792,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[41]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 </UL>
-<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;logic_handle
+<BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;logic_handle
 </UL>
 
 <P><STRONG><a name="[79]"></a>MOTOR_Init</STRONG> (Thumb, 130 bytes, Stack size 32 bytes, motor.o(i.MOTOR_Init))
@@ -970,14 +968,14 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[88]"></a>State_update</STRONG> (Thumb, 40 bytes, Stack size 24 bytes, main.o(i.State_update))
+<P><STRONG><a name="[88]"></a>State_update</STRONG> (Thumb, 40 bytes, Stack size 24 bytes, function.o(i.State_update))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = State_update &rArr; DS18B20_Get_Temp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; __aeabi_llsl
 </UL>
-<BR>[Calls]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_PollForConversion
-<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_GetValue
+<BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_GetValue
 <LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS18B20_Get_Temp
+<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_PollForConversion
 </UL>
-<BR>[Called By]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fun1
 </UL>
 
 <P><STRONG><a name="[10]"></a>SysTick_Handler</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, stm32f0xx_it.o(i.SysTick_Handler))
@@ -1098,20 +1096,22 @@ Global Symbols
 <LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS18B20_Check
 </UL>
 
-<P><STRONG><a name="[0]"></a>fun1</STRONG> (Thumb, 406 bytes, Stack size 16 bytes, function.o(i.fun1))
-<BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = fun1 &rArr; DS18B20_Get_Temp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; __aeabi_llsl
+<P><STRONG><a name="[0]"></a>fun1</STRONG> (Thumb, 442 bytes, Stack size 16 bytes, function.o(i.fun1))
+<BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = fun1 &rArr; State_update &rArr; DS18B20_Get_Temp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; __aeabi_llsl
 </UL>
 <BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_ShowNum
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_Clear
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Receive_IT
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
-<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_PollForConversion
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_GetValue
 <LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS18B20_Get_Temp
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updata
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;updata
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;logic_handle
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;State_update
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_ShowString
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_Start
+<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_PollForConversion
 <LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.data)
@@ -1174,10 +1174,10 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_ShowNum
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_Clear
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
-<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_PollForConversion
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_ShowString
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_ClearSet
 <LI><a href="#[53]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_Start
+<LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_PollForConversion
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.data)
 </UL>
@@ -1221,17 +1221,17 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.data)
 </UL>
-<P><STRONG><a name="[93]"></a>logic_handle</STRONG> (Thumb, 44 bytes, Stack size 32 bytes, main.o(i.logic_handle))
+<P><STRONG><a name="[92]"></a>logic_handle</STRONG> (Thumb, 58 bytes, Stack size 32 bytes, function.o(i.logic_handle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = logic_handle &rArr; MOTOR_Handle
 </UL>
 <BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MOTOR_Handle
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Exchange_Water_Handle
 </UL>
-<BR>[Called By]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fun1
 </UL>
 
-<P><STRONG><a name="[27]"></a>main</STRONG> (Thumb, 380 bytes, Stack size 16 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = main &rArr; State_update &rArr; DS18B20_Get_Temp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; __aeabi_llsl
+<P><STRONG><a name="[27]"></a>main</STRONG> (Thumb, 342 bytes, Stack size 0 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = main &rArr; Stata_Unit_Init &rArr; DS18B20_Get_Temp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; __aeabi_llsl
 </UL>
 <BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_us
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARST1_Init
@@ -1251,8 +1251,6 @@ Global Symbols
 <LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS18B20_Rst
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DS18B20_Init
 <LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BEEP_Init
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;logic_handle
-<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;State_update
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stata_Unit_Init
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 </UL>
@@ -1264,7 +1262,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_ShowNum
 </UL>
 
-<P><STRONG><a name="[92]"></a>updata</STRONG> (Thumb, 90 bytes, Stack size 8 bytes, function.o(i.updata))
+<P><STRONG><a name="[93]"></a>updata</STRONG> (Thumb, 90 bytes, Stack size 8 bytes, function.o(i.updata))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = updata &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
